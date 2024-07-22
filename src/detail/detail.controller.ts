@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
+import { Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { DetailService } from './detail.service';
 import { Detail } from '@prisma/client';
 import Role from 'src/users/role.enum';
@@ -12,8 +12,8 @@ export class DetailController {
     @Public()
     @Get()
     async getDetails(
-        @Query('skip', ParseIntPipe) skip: number,
-        @Query('take', ParseIntPipe) take: number
+        @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip: number,
+        @Query('take', new DefaultValuePipe(20), ParseIntPipe) take: number
     ): Promise<Detail[]> {
         return await this.detailService.findMany({ skip, take });
     }

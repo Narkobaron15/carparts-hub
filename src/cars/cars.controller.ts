@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { CarsService } from './cars.service';
 import { Public } from 'src/security/public.decorator';
 import { Roles } from 'src/security/roles.decorator';
@@ -11,8 +11,8 @@ export class CarsController {
     @Public()
     @Get()
     async getMany(
-        @Query('skip', ParseIntPipe) skip: number = 0,
-        @Query('take', ParseIntPipe) take: number = 10
+        @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip: number,
+        @Query('take', new DefaultValuePipe(20), ParseIntPipe) take: number
     ) {
         return await this.carsService.getMany(skip, take);
     }
