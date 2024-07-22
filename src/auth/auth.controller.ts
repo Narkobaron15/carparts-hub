@@ -1,11 +1,13 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from 'src/security/auth.guard';
+import { Public } from 'src/security/public.decorator';
 
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService) { }
 
+    @Public()
     @Post('login')
     async login(
         @Body('username') username: string, 
@@ -14,6 +16,7 @@ export class AuthController {
         return await this.authService.signIn(username, password);
     }
     
+    @Public()
     @Post('register')
     async register(
         @Body('username') username: string,
@@ -26,6 +29,7 @@ export class AuthController {
     @UseGuards(AuthGuard)
     @Get('profile')
     profile(@Req() req) {
-        return req.user;
+        const { username, role } = req.user;
+        return { username, role };
     }
 }
