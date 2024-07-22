@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Roles } from 'src/security/roles.decorator';
 import Role from './role.enum';
@@ -17,8 +17,8 @@ export class UsersController {
     @Roles(Role.Admin)
     @Get()
     async getUsers(
-        @Param('skip', ParseIntPipe) skip: number = 0,
-        @Param('take', ParseIntPipe) take: number = 20,
+        @Query('skip', ParseIntPipe) skip: number = 0,
+        @Query('take', ParseIntPipe) take: number = 20,
     ): Promise<User[]> {
         return await this.usersService.findMany({ skip, take });
     }
