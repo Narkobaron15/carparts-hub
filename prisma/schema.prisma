@@ -19,7 +19,7 @@ model User {
   email String
   pwd_hash String
   role String
-  created_at DateTime
+  created_at DateTime @default(now())
 
   Seller Seller?
 
@@ -38,45 +38,45 @@ model Manufacturer {
 
 model Car {
   id Int @default(autoincrement()) @id
-  manufacturer Manufacturer @relation(fields: [manufacturer_id], references: [id])
+  manufacturer Manufacturer? @relation(fields: [manufacturer_id], references: [id])
   manufacturer_id Int
   model String
   year Int
-  created_at DateTime
+  created_at DateTime @default(now())
 
   Detail Detail[]
 }
 
 model Seller {
-  user User @relation(fields: [user_id], references: [id])
+  user User? @relation(fields: [user_id], references: [id])
   user_id Int @id @unique
   name String
   description String
-  created_at DateTime
+  created_at DateTime @default(now())
 
   Detail Detail[]
 }
 
 model Detail {
   id Int @default(autoincrement()) @id
-  car Car @relation(fields: [car_id], references: [id])
+  car Car? @relation(fields: [car_id], references: [id])
   car_id Int
   name String
-  manufacturer Manufacturer @relation(fields: [manufacturer_id], references: [id])
+  manufacturer Manufacturer? @relation(fields: [manufacturer_id], references: [id])
   manufacturer_id Int
-  seller Seller @relation(fields: [seller_id], references: [user_id])
+  seller Seller? @relation(fields: [seller_id], references: [user_id])
   seller_id Int
   notes String
-  created_at DateTime
+  created_at DateTime @default(now())
 
   Cart Cart[]
 }
 
 model Cart {
   id Int @default(autoincrement()) @id
-  user User @relation(fields: [user_id], references: [id])
+  user User? @relation(fields: [user_id], references: [id])
   user_id Int
-  detail Detail @relation(fields: [detail_id], references: [id])
+  detail Detail? @relation(fields: [detail_id], references: [id])
   detail_id Int
-  created_at DateTime
+  created_at DateTime @default(now())
 }
