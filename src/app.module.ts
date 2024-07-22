@@ -7,10 +7,11 @@ import { UsersModule } from './users/users.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthGuard } from './security/auth.guard';
 import { CartModule } from './cart/cart.module';
+import { UserController } from './user/user.controller';
 
 @Module({
   imports: [DetailModule, AuthModule, UsersModule, PrismaModule, CartModule],
-  controllers: [],
+  controllers: [UserController],
   providers: [
     PrismaService,
     {

@@ -11,7 +11,7 @@ export class AuthController {
         @Body('username') username: string, 
         @Body('password') password: string
     ) {
-        return this.authService.signIn(username, password);
+        return await this.authService.signIn(username, password);
     }
     
     @Post('register')
@@ -20,12 +20,12 @@ export class AuthController {
         @Body('email') email: string,
         @Body('password') password: string
     ) {
-        return this.authService.signUp(username, email, password);
+        return await this.authService.signUp(username, email, password);
     }
 
     @UseGuards(AuthGuard)
     @Get('profile')
-    async profile(@Req() req) {
+    profile(@Req() req) {
         return req.user;
     }
 }

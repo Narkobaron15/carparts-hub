@@ -12,6 +12,7 @@ export class AuthService {
 
     async signIn(username: string, password: string) {
         const user = await this.userService.findOneByUsername(username);
+        // TODO: Implement password hashing
         if (user?.pwd_hash !== password) {
             throw new UnauthorizedException('Invalid username or password');
         }
@@ -28,6 +29,7 @@ export class AuthService {
             throw new ConflictException('Username already exists');
         }
         
+        // TODO: Implement password hashing
         const newUser = await this.userService.create({
             username,
             email,

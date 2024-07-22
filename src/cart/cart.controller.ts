@@ -5,9 +5,10 @@ import { CartService } from './cart.service';
 export class CartController {
     constructor(private cartService: CartService) { }
 
+    // TODO: Implement pagination
     @Get()
     async getCartByUser(@Request() req: any) {
-        return this.cartService.getCartByUserId(req.user.id);
+        return await this.cartService.getCartByUserId(req.user.id);
     }
 
     @Post()
@@ -16,7 +17,7 @@ export class CartController {
         @Body('quantity', ParseIntPipe) quantity: number,
         @Request() req: any
     ) {
-        return this.cartService.create({
+        return await this.cartService.create({
             user: {
                 connect: { id: req.user.id }
             },
@@ -32,7 +33,7 @@ export class CartController {
         @Body('quantity', ParseIntPipe) quantity: number,
         @Param('id', ParseIntPipe) id: number,
     ) {
-        return this.cartService.update(
+        return await this.cartService.update(
             { id },
             { quantity }
         );
@@ -40,7 +41,7 @@ export class CartController {
 
     @Delete(':id')
     async delete(@Request() req: any) {
-        return this.cartService.delete({
+        return await this.cartService.delete({
             id: req.params.id
         });
     }

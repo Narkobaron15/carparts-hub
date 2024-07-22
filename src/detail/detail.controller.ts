@@ -15,13 +15,13 @@ export class DetailController {
         @Query('skip', ParseIntPipe) skip: number,
         @Query('take', ParseIntPipe) take: number
     ): Promise<Detail[]> {
-        return this.detailService.findMany({ skip, take });
+        return await this.detailService.findMany({ skip, take });
     }
 
     @Public()
     @Get(':id')
     async getDetail(@Param('id', ParseIntPipe) id: number): Promise<Detail> {
-        return this.detailService.findOne({ id });
+        return await this.detailService.findOne({ id });
     }
 
     @Post()
@@ -33,7 +33,7 @@ export class DetailController {
         notes: string;
 
     }): Promise<Detail> {
-        return this.detailService.create({
+        return await this.detailService.create({
             ...data,
             seller: {
                 connect: { user_id: 1 },
@@ -52,7 +52,7 @@ export class DetailController {
             notes: string;
         }
     ): Promise<Detail> {
-        return this.detailService.update({
+        return await this.detailService.update({
             where: { id },
             data,
         });
@@ -61,6 +61,6 @@ export class DetailController {
     @Delete(':id')
     @Roles(Role.Admin, Role.Seller)
     async deleteDetail(@Param('id', ParseIntPipe) id: number): Promise<Detail> {
-        return this.detailService.delete({ id });
+        return await this.detailService.delete({ id });
     }
 }
