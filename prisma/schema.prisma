@@ -78,5 +78,6 @@ model Cart {
   user_id Int
   detail Detail? @relation(fields: [detail_id], references: [id])
   detail_id Int
+  quantity Int
   created_at DateTime @default(now())
 }

@@ -20,8 +20,8 @@ export class DetailController {
 
     @Public()
     @Get(':id')
-    async getDetail(@Param('id') id: string): Promise<Detail> {
-        return this.detailService.findOne({ id: Number(id) });
+    async getDetail(@Param('id', ParseIntPipe) id: number): Promise<Detail> {
+        return this.detailService.findOne({ id });
     }
 
     @Post()
@@ -33,13 +33,18 @@ export class DetailController {
         notes: string;
 
     }): Promise<Detail> {
-        return this.detailService.create(data);
+        return this.detailService.create({
+            ...data,
+            seller: {
+                connect: { user_id: 1 },
+            }
+        });
     }
 
     @Put(':id')
     @Roles(Role.Admin, Role.Seller)
     async updateDetail(
-        @Param('id') id: string,
+        @Param('id', ParseIntPipe) id: number,
         @Query() data: {
             name: string;
             description: string;
@@ -48,14 +53,14 @@ export class DetailController {
         }
     ): Promise<Detail> {
         return this.detailService.update({
-            where: { id: Number(id) },
+            where: { id },
             data,
         });
     }
 
     @Delete(':id')
     @Roles(Role.Admin, Role.Seller)
-    async deleteDetail(@Param('id') id: string): Promise<Detail> {
-        return this.detailService.delete({ id: Number(id) });
+    async deleteDetail(@Param('id', ParseIntPipe) id: number): Promise<Detail> {
+        return this.detailService.delete({ id });
     }
 }
