@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @default(autoincrement()) @id
+  username String
+  email String
+  pwd_hash String
+  role String
+  created_at DateTime
+
+  Seller Seller?
+
+  Cart Cart[]
+}
+
+model Manufacturer {
+  id Int @default(autoincrement()) @id
+  name String
+  description String
+  created_at DateTime
+
+  Car Car[]
+  Detail Detail[]
+}
+
+model Car {
+  id Int @default(autoincrement()) @id
+  manufacturer Manufacturer @relation(fields: [manufacturer_id], references: [id])
+  manufacturer_id Int
+  model String
+  year Int
+  created_at DateTime
+
+  Detail Detail[]
+}
+
+model Seller {
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int @id @unique
+  name String
+  description String
+  created_at DateTime
+
+  Detail Detail[]
+}
+
+model Detail {
+  id Int @default(autoincrement()) @id
+  car Car @relation(fields: [car_id], references: [id])
+  car_id Int
+  name String
+  manufacturer Manufacturer @relation(fields: [manufacturer_id], references: [id])
+  manufacturer_id Int
+  seller Seller @relation(fields: [seller_id], references: [user_id])
+  seller_id Int
+  notes String
+  created_at DateTime
+
+  Cart Cart[]
+}
+
+model Cart {
+  id Int @default(autoincrement()) @id
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
+  detail Detail @relation(fields: [detail_id], references: [id])
+  detail_id Int
+  created_at DateTime
+}
