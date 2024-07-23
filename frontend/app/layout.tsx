@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "./header";
-import Footer from "./footer";
+import Header from "./misc/header";
+import Footer from "./misc/footer";
 import { ToastContainer } from "react-toastify";
 import StoreProvider from "./StoreProvider";
 

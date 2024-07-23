@@ -1,0 +1,4 @@
+.footer {
+    @apply bg-gray-100 text-center py-4 text-gray-600
+    dark:text-gray-100 bg-black;
+}
