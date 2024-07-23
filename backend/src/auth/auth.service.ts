@@ -1,7 +1,10 @@
 import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 import Role from 'src/users/role.enum';
 import { UsersService } from 'src/users/users.service';
+
+const rounds = 10;
 
 @Injectable()
 export class AuthService {
@@ -12,8 +15,7 @@ export class AuthService {
 
     async signIn(username: string, password: string) {
         const user = await this.userService.findOneByUsername(username);
-        // TODO: Implement password hashing
-        if (user?.pwd_hash !== password) {
+        if (!await bcrypt.compare(password, user.pwd_hash)) {
             throw new UnauthorizedException('Invalid username or password');
         }
         
@@ -28,14 +30,15 @@ export class AuthService {
         if (user) {
             throw new ConflictException('Username already exists');
         }
-        
-        // TODO: Implement password hashing
+
+        const hash = await bcrypt.hash(password, rounds);
         const newUser = await this.userService.create({
             username,
             email,
             pwd_hash: password,
             role: Role.User
         });
+        
         const payload = { username, sub: newUser.id, role: newUser.role };
         return {
             access_token: await this.jwtService.signAsync(payload)
