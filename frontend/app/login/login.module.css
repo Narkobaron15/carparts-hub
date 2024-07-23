@@ -1,0 +1,52 @@
+.container {
+    @apply max-w-md mx-auto mt-10 p-6 bg-white dark:bg-slate-900 rounded-lg shadow-md;
+}
+
+.title {
+    @apply text-2xl font-bold text-center text-blue-600 mb-6;
+}
+
+.form {
+    @apply space-y-4;
+}
+
+.inputGroup {
+    @apply flex flex-col;
+}
+
+.label {
+    @apply mb-1 text-sm font-medium text-gray-700 dark:text-gray-200;
+}
+
+.input {
+    @apply px-3 py-2 border border-gray-300 dark:border-gray-800 dark:bg-slate-800 dark:text-white 
+    rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+.inputError {
+    @apply border-red-500;
+}
+
+.errorText {
+    @apply mt-1 text-sm text-red-600;
+}
+
+.submitButton {
+    @apply w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50;
+}
+
+.errorMessage {
+    @apply mt-4 text-sm text-center text-red-600;
+}
+
+.successMessage {
+    @apply mt-4 text-sm text-center text-green-600;
+}
+
+.signupText {
+    @apply mt-4 text-sm text-center text-gray-600;
+}
+
+.signupLink {
+    @apply text-blue-600 hover:underline;
+}

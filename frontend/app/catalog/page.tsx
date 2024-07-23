@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react';
 import styles from './catalog.module.css';
-import http_common from '@/lib/http_common';
+import http_common from '@/lib/requests';
 import Detail from '@/models/part';
 
 const Catalog = () => {

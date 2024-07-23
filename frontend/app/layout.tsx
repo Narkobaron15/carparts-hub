@@ -13,11 +13,11 @@ export const metadata: Metadata = {
   description: "",
 };
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>): React.ReactElement => {
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -33,3 +33,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+export default RootLayout;

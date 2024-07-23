@@ -1,7 +1,8 @@
+'use client'
 import Link from "next/link";
 import styles from "./home.module.css";
 
-export default function Home() {
+const Home = () => {
   return (
     <div className={styles['home-page']}>
       <h1 className={styles.title}>Welcome to CarParts Hub</h1>
@@ -26,3 +27,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;

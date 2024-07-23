@@ -35,7 +35,7 @@ export class AuthService {
         const newUser = await this.userService.create({
             username,
             email,
-            pwd_hash: password,
+            pwd_hash: hash,
             role: Role.User
         });
         

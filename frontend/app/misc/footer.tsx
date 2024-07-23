@@ -1,6 +1,7 @@
+'use client'
 import styles from './footer.module.css';
 
-export default function Footer() {
+const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
@@ -9,3 +10,5 @@ export default function Footer() {
     </footer>
   );
 }
+
+export default Footer;

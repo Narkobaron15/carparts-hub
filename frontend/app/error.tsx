@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import styles from './error.module.css';
 
-export default function Error({ statusCode }: { statusCode: number }) {
+const Error = ({ statusCode }: { statusCode: number }) => {
     const handleReload = () => {
         window.location.reload();
     };
@@ -38,3 +38,5 @@ Error.getInitialProps = ({ res, err }: {
     const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
     return { statusCode };
 };
+
+export default Error;

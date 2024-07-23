@@ -1,10 +1,23 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import loginSlice from './features/login_slice'
+import { thunk } from 'redux-thunk'
+import storage from 'redux-persist/lib/storage'
+import { persistCombineReducers } from 'redux-persist'
+
+const persistConfig = {
+    key: 'root',
+    storage,
+}
+
+export const rootReducer = persistCombineReducers(persistConfig, {
+    login: loginSlice.reducer,
+})
 
 export const makeStore = () => {
     return configureStore({
-        reducer: combineReducers({
-            // Add reducers here
-        }),
+        reducer: rootReducer,
+        devTools: process.env.NODE_ENV !== 'production',
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
     })
 }
 

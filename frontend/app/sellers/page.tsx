@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './sellers.module.css';
 import Seller from '@/models/seller';
-import http_common from '@/lib/http_common';
+import http_common from '@/lib/requests';
 
 const ITEMS_PER_PAGE = 9;
 

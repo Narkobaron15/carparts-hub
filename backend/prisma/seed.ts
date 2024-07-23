@@ -13,7 +13,7 @@ async function main() {
         create: {
             username: 'admin',
             email: 'admin@email.com',
-            pwd_hash: await bcrypt.hash('admin', rounds),
+            pwd_hash: await bcrypt.hash('admin1234', rounds),
             role: "Admin",
         },
     })
@@ -26,7 +26,7 @@ async function main() {
         create: {
             username: 'merchant',
             email: 'merchant@email.com',
-            pwd_hash: await bcrypt.hash('merchant', rounds),
+            pwd_hash: await bcrypt.hash('merchant1234', rounds),
             role: "Seller",
         },
     })
@@ -39,7 +39,7 @@ async function main() {
         create: {
             username: 'user',
             email: 'user@email.com',
-            pwd_hash: await bcrypt.hash('user', rounds),
+            pwd_hash: await bcrypt.hash('user1234', rounds),
             role: "User",
         },
     })
