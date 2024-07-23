@@ -10,6 +10,8 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // TODO: Add login + register/logout button
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>

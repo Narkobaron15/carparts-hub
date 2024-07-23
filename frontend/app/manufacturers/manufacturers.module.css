@@ -1,0 +1,31 @@
+.container {
+    @apply max-w-7xl mx-auto px-4 py-8;
+}
+
+.title {
+    @apply text-3xl font-bold text-center text-blue-600 mb-8;
+}
+
+.manufacturers-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.card {
+    @apply bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300;
+}
+
+.manufacturerName {
+    @apply text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200;
+}
+
+.manufacturerInfo {
+    @apply text-gray-600 mb-1;
+}
+
+.viewMore {
+    @apply inline-block mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300;
+}
+
+.noResults {
+    @apply text-center text-lg mt-8 text-gray-600;
+}
