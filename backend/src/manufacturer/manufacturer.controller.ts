@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { ManufacturerService } from './manufacturer.service';
 import { Public } from 'src/security/public.decorator';
 import { Roles } from 'src/security/roles.decorator';
@@ -11,8 +11,8 @@ export class ManufacturerController {
     @Public()
     @Get()
     async getMany(
-        @Query('skip') skip: number = 0,
-        @Query('take') take: number = 10
+        @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip: number,
+        @Query('take', new DefaultValuePipe(10), ParseIntPipe) take: number
     ) {
         return await this.manufacturerService.getMany({ skip, take });
     }

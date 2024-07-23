@@ -9,6 +9,8 @@ import { AuthGuard } from './security/auth.guard';
 import { CartModule } from './cart/cart.module';
 import { ManufacturerModule } from './manufacturer/manufacturer.module';
 import { CarsModule } from './cars/cars.module';
+import { SellersService } from './sellers/sellers.service';
+import { SellersModule } from './sellers/sellers.module';
 
 @Module({
   imports: [
@@ -19,6 +21,7 @@ import { CarsModule } from './cars/cars.module';
     CartModule,
     ManufacturerModule,
     CarsModule,
+    SellersModule,
   ],
   controllers: [],
   providers: [
@@ -30,7 +33,8 @@ import { CarsModule } from './cars/cars.module';
     {
       provide: 'ROLE_GUARD',
       useClass: RolesGuard
-    }
+    },
+    SellersService
   ],
 })
 export class AppModule { }

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Request } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Request } from '@nestjs/common';
 import { CartService } from './cart.service';
 
 @Controller('cart')
@@ -7,8 +7,12 @@ export class CartController {
 
     // TODO: Implement pagination
     @Get()
-    async getCartByUser(@Request() req: any) {
-        return await this.cartService.getCartByUserId(req.user.id);
+    async getCartByUser(
+        @Request() req: any,
+        @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip: number,
+        @Query('take', new DefaultValuePipe(10), ParseIntPipe) take: number,
+    ) {
+        return await this.cartService.getCartByUserId(req.user.id, skip, take);
     }
 
     @Post()

@@ -4,14 +4,21 @@ import { Roles } from 'src/security/roles.decorator';
 import Role from './role.enum';
 import { User } from '@prisma/client';
 
+const removePassword = (user: User) => {
+    return {...user, pwd_hash: undefined};
+}
+const removePasswords = (users: User[]) => users.map(removePassword);
+
 @Controller('users')
 export class UsersController {
-    constructor(private readonly usersService: UsersService) { }
+    constructor(
+        private readonly usersService: UsersService
+    ) { }
 
     @Roles(Role.Admin)
     @Get(':id')
     async getUser(@Param('id', ParseIntPipe) id: number): Promise<User> {
-        return await this.usersService.findOne({ id });
+        return removePassword(await this.usersService.findOne({ id }));
     }
 
     @Roles(Role.Admin)
@@ -20,13 +27,13 @@ export class UsersController {
         @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip: number = 0,
         @Query('take', new DefaultValuePipe(20), ParseIntPipe) take: number = 20,
     ): Promise<User[]> {
-        return await this.usersService.findMany({ skip, take });
+        return await this.usersService.findMany({ skip, take }).then(removePasswords);
     }
 
     @Roles(Role.Admin)
     @Get('email/:email')
     async getUserByEmail(@Param('email') email: string): Promise<User> {
-        return await this.usersService.findOneByEmail(email);
+        return removePassword(await this.usersService.findOneByEmail(email));
     }
 
     @Roles(Role.Admin)
@@ -37,12 +44,13 @@ export class UsersController {
         @Body('password') password: string,
         @Body('role') role: string
     ): Promise<User> {
-        return await this.usersService.create({
+        const user = await this.usersService.create({
             email,
             username,
             pwd_hash: password,
             role: role as Role
         });
+        return removePassword(user);
     }
 
     @Roles(Role.Admin)
@@ -54,7 +62,7 @@ export class UsersController {
         @Body('password') password: string,
         @Body('role') role: string
     ): Promise<User> {
-        return await this.usersService.update({
+        const user = await this.usersService.update({
             where: { id },
             data: {
                 email,
@@ -63,11 +71,12 @@ export class UsersController {
                 role: role as Role
             }
         });
+        return removePassword(user);
     }
 
     @Roles(Role.Admin)
     @Delete(':id')
     async deleteUser(@Param('id', ParseIntPipe) id: number): Promise<User> {
-        return await this.usersService.delete({ id });
+        return removePassword(await this.usersService.delete({ id }));
     }
 }

@@ -13,6 +13,7 @@ export class AuthController {
         @Body('username') username: string, 
         @Body('password') password: string
     ) {
+        // TODO: http-only cookie
         return await this.authService.signIn(username, password);
     }
     
@@ -23,6 +24,7 @@ export class AuthController {
         @Body('email') email: string,
         @Body('password') password: string
     ) {
+        // TODO: http-only cookie
         return await this.authService.signUp(username, email, password);
     }
 

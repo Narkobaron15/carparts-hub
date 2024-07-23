@@ -10,11 +10,21 @@ export class CartService {
         return await this.prisma.cart.findUnique({ where });
     }
 
-    async getCartByUserId(userId: number): Promise<Cart[]> {
+    async getCartByUserId(
+        userId: number,
+        skip?: number,
+        take?: number,
+        cursor?: Prisma.CartWhereUniqueInput,
+        orderBy?: Prisma.CartOrderByWithRelationInput
+    ): Promise<Cart[]> {
         return await this.prisma.cart.findMany({
             where: {
                 user_id: userId
-            }
+            },
+            skip,
+            take,
+            cursor,
+            orderBy
         });
     }
 
