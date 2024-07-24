@@ -17,6 +17,12 @@ const UpdatePage = ({ params }: { params: { id: number } }) => {
     const fetchManufacturer = async () => {
         try {
             const response = await http_common.get(`/manufacturer/${id}`);
+            if (!response.data) {
+                console.error('Manufacturer not found');
+                router.push('/manufacturers/panel');
+                return;
+            }
+            
             setInitialValues({
                 name: response.data.name,
                 description: response.data.description,

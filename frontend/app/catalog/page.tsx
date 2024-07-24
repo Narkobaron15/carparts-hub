@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import styles from './catalog.module.css';
 import http_common from '@/lib/requests';
-import Detail from '@/models/part';
+import { Detail } from '@/models/detail';
 
 const Catalog = () => {
   const [parts, setParts] = useState<Detail[]>([]);

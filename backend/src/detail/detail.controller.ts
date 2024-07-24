@@ -1,13 +1,18 @@
-import { Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
 import { DetailService } from './detail.service';
 import { Detail } from '@prisma/client';
 import Role from 'src/users/role.enum';
 import { Public } from 'src/security/public.decorator';
 import { Roles } from 'src/security/roles.decorator';
+import { UsersService } from 'src/users/users.service';
+import { AuthGuard } from 'src/security/auth.guard';
 
 @Controller('detail')
 export class DetailController {
-    constructor(private readonly detailService: DetailService) { }
+    constructor(
+        private readonly detailService: DetailService,
+        private readonly usersService: UsersService
+    ) { }
 
     @Public()
     @Get()
@@ -21,15 +26,28 @@ export class DetailController {
     @Public()
     @Get('seller/:id')
     async getDetailsBySeller(
-        @Param('id', ParseIntPipe) id: number,
         @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip: number,
-        @Query('take', new DefaultValuePipe(20), ParseIntPipe) take: number
+        @Query('take', new DefaultValuePipe(20), ParseIntPipe) take: number,
+        @Param('id', ParseIntPipe) id: number,
     ): Promise<Detail[]> {
         return await this.detailService.findMany({
             skip,
             take,
             where: { seller: { user_id: id } }
         });
+    }
+
+    @UseGuards(AuthGuard)
+    @Roles(Role.Admin, Role.Seller)
+    @Get('seller')
+    async getDetailsOfSeller(
+        @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip: number,
+        @Query('take', new DefaultValuePipe(20), ParseIntPipe) take: number,
+        @Req() req,
+    ): Promise<Detail[]> {
+        const user = await this.usersService.findOneByUsername(req.user.username);
+        if (!user || !user.id) return [];
+        return await this.getDetailsBySeller(skip, take, user.id);
     }
 
     @Public()
@@ -54,17 +72,23 @@ export class DetailController {
 
     @Post()
     @Roles(Role.Admin, Role.Seller)
-    async createDetail(@Query() data: {
-        name: string;
-        description: string;
-        price: number;
-        notes: string;
-
-    }): Promise<Detail> {
+    async createDetail(
+        @Body() data: {
+            name: string;
+            car_id: string;
+            notes: string;
+        },
+        @Req() req
+    ): Promise<Detail> {
+        const user = await this.usersService.findOneByUsername(req.user.username);
         return await this.detailService.create({
-            ...data,
+            name: data.name,
+            car: {
+                connect: { id: Number(data.car_id) },
+            },
+            notes: data.notes,
             seller: {
-                connect: { user_id: 1 },
+                connect: { user_id: user.id },
             }
         });
     }
@@ -73,22 +97,26 @@ export class DetailController {
     @Roles(Role.Admin, Role.Seller)
     async updateDetail(
         @Param('id', ParseIntPipe) id: number,
-        @Query() data: {
+        @Body() data: {
             name: string;
             description: string;
             price: number;
             notes: string;
-        }
+        },
+        @Req() req
     ): Promise<Detail> {
         return await this.detailService.update({
             where: { id },
             data,
-        });
+        }, req.user.username);
     }
 
     @Delete(':id')
     @Roles(Role.Admin, Role.Seller)
-    async deleteDetail(@Param('id', ParseIntPipe) id: number): Promise<Detail> {
-        return await this.detailService.delete({ id });
+    async deleteDetail(
+        @Param('id', ParseIntPipe) id: number,
+        @Req() req
+    ): Promise<Detail> {
+        return await this.detailService.delete({ id }, req.user.username);
     }
 }
