@@ -23,12 +23,17 @@ const Home = () => {
           <p>Discover the best car part manufacturers</p>
         </Link>
 
+        <Link href="/cars" className={styles.card}>
+          <h2>Cars</h2>
+          <p>Browse available details for your car</p>
+        </Link>
+
         <Link href="/sellers" className={styles.card}>
           <h2>Sellers</h2>
           <p>Connect with the top car part sellers</p>
         </Link>
 
-        {role && (
+        {role !== Role.Guest && (
           <Link href="/cart" className={styles.card}>
           <h2>Cart</h2>
           <p>View your orders</p>

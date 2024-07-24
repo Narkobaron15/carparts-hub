@@ -1,8 +1,12 @@
 'use client'
 import Link from 'next/link';
 import styles from './error.module.css';
+import { useRouter } from 'next/navigation';
 
 const NotFound = () => {
+    const router = useRouter();
+    const handleBack = () => router.back();
+
     return (
         <div className={styles.container}>
             <div className={styles.content}>
@@ -13,11 +17,11 @@ const NotFound = () => {
                     doesn&apos;t exist or has been moved.
                 </p>
                 <div className={styles.actions}>
+                    <button onClick={handleBack} className={styles.button}>
+                        Go back
+                    </button>
                     <Link href="/" className={styles.button}>
-                        Go to Homepage
-                    </Link>
-                    <Link href="/catalog" className={styles.button}>
-                        Browse Catalog
+                        Home page
                     </Link>
                 </div>
             </div>

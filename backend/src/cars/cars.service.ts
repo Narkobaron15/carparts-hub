@@ -8,7 +8,12 @@ export class CarsService {
     constructor(private prisma: PrismaService) {}
 
     async getOne(where: Prisma.CarWhereUniqueInput) {
-        return await this.prisma.car.findUnique({ where });
+        return await this.prisma.car.findUnique({ 
+            where,
+            include: {
+                manufacturer: true,
+            },
+         });
     }
 
     async getMany(
@@ -24,6 +29,9 @@ export class CarsService {
             cursor,
             orderBy,
             where,
+            include: {
+                manufacturer: true,
+            },
          });
     }
 

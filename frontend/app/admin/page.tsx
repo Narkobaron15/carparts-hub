@@ -6,7 +6,7 @@ import { useAuthOnly } from "@/lib/hooks";
 import AdminPage from "./admin";
 
 const CoreAdminPage = () => {
-    const role = useAuthOnly(Role.Admin, Role.Seller);
+    const { role } = useAuthOnly(Role.Admin, Role.Seller);
 
     switch (role) {
         case Role.Admin:

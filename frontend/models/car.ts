@@ -1,6 +1,7 @@
-import Manufacturer from "./manufacturer";
+import { decl } from "postcss";
+import { Manufacturer } from "./manufacturer";
 
-export default class Car {
+export class Car {
     declare id: number;
     declare manufacturer: Manufacturer;
     declare model: string;
@@ -13,5 +14,17 @@ export default class Car {
         this.model = other.model;
         this.year = other.year;
         this.created_at = other.created_at;
+    }
+}
+
+export class CreateUpdateCar {
+    declare manufacturer_id: number;
+    declare model: string;
+    declare year: number;
+
+    constructor(other: CreateUpdateCar) {
+        this.manufacturer_id = other.manufacturer_id;
+        this.model = other.model;
+        this.year = other.year;
     }
 }

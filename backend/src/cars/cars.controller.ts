@@ -1,4 +1,4 @@
-import { Body, Controller, DefaultValuePipe, Delete, Get, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { CarsService } from './cars.service';
 import { Public } from 'src/security/public.decorator';
 import { Roles } from 'src/security/roles.decorator';
@@ -19,7 +19,7 @@ export class CarsController {
 
     @Public()
     @Get(':id')
-    async getOne(@Query('id', ParseIntPipe) id: number) {
+    async getOne(@Param('id', ParseIntPipe) id: number) {
         return await this.carsService.getOne({ id });
     }
 
@@ -45,7 +45,7 @@ export class CarsController {
         @Body('model') model: string,
         @Body('year', ParseIntPipe) year: number,
         @Body('manufacturer_id', ParseIntPipe) manufacturerId: number,
-        @Query('id', ParseIntPipe) id: number,
+        @Param('id', ParseIntPipe) id: number,
     ) {
         return await this.carsService.update({
             where: { id },
@@ -61,7 +61,7 @@ export class CarsController {
 
     @Roles(Role.Admin)
     @Delete(':id')
-    async delete(@Query('id', ParseIntPipe) id: number) {
+    async delete(@Param('id', ParseIntPipe) id: number) {
         return await this.carsService.delete({ id });
     }
 }

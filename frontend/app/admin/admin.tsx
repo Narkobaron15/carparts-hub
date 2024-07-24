@@ -21,9 +21,9 @@ const AdminPage = () => {
                     <p>Open sellers panel</p>
                 </Link>
 
-                <Link href="/" className={styles.card}>
-                    <h2>Go home</h2>
-                    <p>Return to the home page</p>
+                <Link href="/cars/panel" className={styles.card}>
+                    <h2>Cars</h2>
+                    <p>Open cars panel</p>
                 </Link>
 
                 {/* TODO */}
@@ -31,6 +31,11 @@ const AdminPage = () => {
                     <h2>Users</h2>
                     <p>Open users panel</p>
                 </Link> */}
+
+                <Link href="/" className={styles.card}>
+                    <h2>Go home</h2>
+                    <p>Return to the home page</p>
+                </Link>
             </div>
         </div>
     )
