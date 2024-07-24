@@ -6,7 +6,7 @@ import { useAuthOnly } from '@/lib/hooks';
 import Role from '@/models/roles';
 
 const Header = () => {
-  const role = useAuthOnly();
+  const { role } = useAuthOnly();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isAuthenticated = !!role && role !== Role.Guest;
 
@@ -26,16 +26,22 @@ const Header = () => {
         </button>
 
         <nav className={`${styles.nav} ${isMenuOpen ? styles.navOpen : ''}`}>
-          <Link href="/" className={styles.navLink}>Home</Link>
           <Link href="/catalog" className={styles.navLink}>Catalog</Link>
           <Link href="/manufacturers" className={styles.navLink}>Manufacturers</Link>
           <Link href="/sellers" className={styles.navLink}>Sellers</Link>
+          <Link href="/cars" className={styles.navLink}>Cars</Link>
+          <Link href="/about" className={styles.navLink}>About</Link>
           {isAuthenticated ? (
-            <Link href="/logout" className={styles.navLink}>Logout</Link>
+            <>
+              {role === Role.Admin && (
+                <Link href="/admin" className={styles.navLink}>Admin</Link>
+              )}
+              <Link href="/cart" className={styles.navLink}>Cart</Link>
+              <Link href="/logout" className={styles.navLink}>Logout</Link>
+            </>
           ) : (
             <Link href="/login" className={styles.navLink}>Login</Link>
           )}
-          <Link href="/about" className={styles.navLink}>About</Link>
         </nav>
       </div>
     </header>

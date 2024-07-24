@@ -19,7 +19,9 @@ export class ManufacturerController {
 
     @Public()
     @Get(':id')
-    async getOne(id: number) {
+    async getOne(
+        @Param('id', ParseIntPipe) id: number
+    ) {
         return await this.manufacturerService.get({ id });
     }
 
@@ -37,7 +39,7 @@ export class ManufacturerController {
     async update(
         @Body('name') name: string,
         @Body('description') description: string,
-        @Param('id') id: number
+        @Param('id', ParseIntPipe) id: number
     ) {
         return await this.manufacturerService.update({
             where: { id },
@@ -47,7 +49,7 @@ export class ManufacturerController {
 
     @Roles(Role.Admin)
     @Delete(':id')
-    async delete(@Param('id') id: number) {
+    async delete(@Param('id', ParseIntPipe) id: number) {
         return await this.manufacturerService.delete({ id });
     }
 }

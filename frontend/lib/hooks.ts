@@ -31,13 +31,13 @@ const useAuthOnly = (...roles: Role[]) => {
     useEffect(() => {
         getRole(token).then(r => {
             if (!r || (roles.length > 0 && !roles.includes(r))) {
-                router.push('/');
+                router.push('/')
             }
             setRole(r)
         });
     }, [token, roles]);
 
-    return role;
+    return { role, token };
 }
 
 const useUnauthOnly = (link?: string) => {

@@ -1,4 +1,4 @@
-export default class Manufacturer {
+export class Manufacturer {
     declare id: number;
     declare name: string;
     declare description: string | null;
@@ -9,5 +9,15 @@ export default class Manufacturer {
         this.name = other.name;
         this.description = other.description;
         this.created_at = other.created_at;
+    }
+}
+
+export class CreateUpdateManufacturer {
+    declare name: string;
+    declare description: string;
+
+    constructor(other: CreateUpdateManufacturer) {
+        this.name = other.name;
+        this.description = other.description;
     }
 }
