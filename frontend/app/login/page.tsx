@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import http_common from '@/lib/requests';
 import { loginFailure, loginRequest, loginSuccess } from '@/lib/redux/features/login_slice';
 import Auth from '@/models/auth';
-import { checkAuth } from '@/lib/check_auth';
+import { useUnauthOnly } from '@/lib/hooks';
 
 const LoginSchema = Yup.object().shape({
     username: Yup.string().min(3, 'Invalid user name').required('Required'),
@@ -19,18 +19,9 @@ const LoginSchema = Yup.object().shape({
 
 const LoginPage = () => {
     const dispatch = useAppDispatch();
-    const token = useAppSelector(state => state.login.token);
     const router = useRouter();
 
-    useEffect(() => {
-        checkAuth(token).then(role => {
-            if (role) {
-                router.push('/');
-            } else {
-                dispatch(loginFailure({ error: 'Invalid token' }));
-            }
-        })
-    }, []);
+    useUnauthOnly();
 
     const handleSubmit = async (
         values: Auth,

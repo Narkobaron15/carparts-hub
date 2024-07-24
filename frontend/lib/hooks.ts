@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { useAppSelector } from "./redux/hooks"
+import { useAppDispatch, useAppSelector } from "./redux/hooks"
 import User from "@/models/user";
-import { getAuth } from "./check_auth";
+import { getAuth, getRole } from "./check_auth";
 import Role from "@/models/roles";
+import { useRouter } from "next/navigation";
+import { loginFailure } from "./redux/features/login_slice";
 
 const initialState: User = {
     username: '',
@@ -21,4 +23,35 @@ const useAuth = () => {
     return user;
 }
 
-export default useAuth;
+const useAuthOnly = (...roles: Role[]) => {
+    const router = useRouter();
+    const token = useAppSelector(state => state.login.token);
+    const [role, setRole] = useState<Role | null>(null);
+
+    useEffect(() => {
+        getRole(token).then(r => {
+            if (!r || (roles.length > 0 && !roles.includes(r))) {
+                router.push('/');
+            }
+            setRole(r)
+        });
+    }, [token, roles]);
+
+    return role;
+}
+
+const useUnauthOnly = (link?: string) => {
+    const router = useRouter();
+    const token = useAppSelector(state => state.login.token);
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        if (token) {
+            router.push(link ?? '/');
+        } else {
+            dispatch(loginFailure({ error: 'Invalid token' }));
+        }
+    }, [token, link]);
+}
+
+export { useAuth, useAuthOnly, useUnauthOnly };

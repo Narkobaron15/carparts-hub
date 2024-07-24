@@ -2,19 +2,17 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import styles from './header.module.css';
-import useAuth from '@/lib/hooks';
+import { useAuthOnly } from '@/lib/hooks';
 import Role from '@/models/roles';
 
 const Header = () => {
-  const { role } = useAuth();
+  const role = useAuthOnly();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isAuthenticated = useState(role !== Role.Guest);
+  const isAuthenticated = !!role && role !== Role.Guest;
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
-  // TODO: Add login + register/logout button
 
   return (
     <header className={styles.header}>

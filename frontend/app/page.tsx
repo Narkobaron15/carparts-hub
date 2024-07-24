@@ -2,7 +2,7 @@
 import Link from "next/link";
 import styles from "./home.module.css";
 import Role from "@/models/roles";
-import useAuth from "@/lib/hooks";
+import { useAuth } from "@/lib/hooks";
 
 const Home = () => {
   const { role } = useAuth();

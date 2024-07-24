@@ -2,7 +2,7 @@ import Role from "@/models/roles";
 import http_common from "./requests";
 import User from "@/models/user";
 
-const checkAuth = async (token: string | null): Promise<Role | null> =>
+const getRole = async (token: string | null): Promise<Role | null> =>
     (await getAuth(token))?.role ?? null;
 
 const getAuth = async (token: string | null): Promise<User | null> => {
@@ -26,4 +26,4 @@ const getAuth = async (token: string | null): Promise<User | null> => {
     }
 }
 
-export { checkAuth, getAuth };
+export { getRole, getAuth };

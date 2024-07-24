@@ -5,12 +5,11 @@ import { FormikHelpers } from 'formik';
 import Link from 'next/link';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { useEffect } from 'react';
 import { loginFailure, loginRequest, loginSuccess } from '@/lib/redux/features/login_slice';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import http_common from '@/lib/requests';
 import { useRouter } from 'next/navigation';
-import { checkAuth } from '@/lib/check_auth';
+import { useUnauthOnly } from '@/lib/hooks';
 
 const RegisterSchema = Yup.object().shape({
     username: Yup.string().min(3, 'Invalid user name').required('Required'),
@@ -25,15 +24,7 @@ const RegisterPage = () => {
     const token = useAppSelector(state => state.login.token);
     const router = useRouter();
 
-    useEffect(() => {
-        checkAuth(token).then(role => {
-            if (role) {
-                router.push('/');
-            } else {
-                dispatch(loginFailure({ error: 'Invalid token' }));
-            }
-        })
-    }, [token]);
+    useUnauthOnly();
 
     const handleSubmit = async (
         values: Register,
