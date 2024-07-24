@@ -1,24 +1,14 @@
 'use client'
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './header.module.css';
-import { useAppSelector } from '@/lib/hooks';
-import http_common from '@/lib/requests';
+import useAuth from '@/lib/hooks';
+import Role from '@/models/roles';
 
 const Header = () => {
-  const token = useAppSelector(state => state.login.token);
+  const { role } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    http_common.get('/auth/profile', {
-      headers: {
-        Authorization: token,
-      },
-    })
-      .then(() => setIsAuthenticated(true))
-      .catch(() => setIsAuthenticated(false));
-  }, [token]);
+  const isAuthenticated = useState(role !== Role.Guest);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -28,7 +18,7 @@ const Header = () => {
 
   return (
     <header className={styles.header}>
-      <div className={styles.container}>
+      <div className={styles['header-container']}>
         <Link href="/" className={styles.logo}>
           CarParts Hub
         </Link>

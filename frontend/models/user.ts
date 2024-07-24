@@ -1,13 +1,13 @@
+import Role from "./roles";
+
 export default class User {
-    declare id: number;
     declare username: string;
     declare email: string;
-    declare created_at: string;
+    declare role: Role;
 
     constructor(other: User) {
-        this.id = other.id;
         this.username = other.username;
         this.email = other.email;
-        this.created_at = other.created_at;
+        this.role = other.role;
     }
 }

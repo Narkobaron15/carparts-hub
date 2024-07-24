@@ -1,7 +1,7 @@
 'use client';
 
-import { logout } from "@/lib/features/login_slice";
-import { useAppDispatch } from "@/lib/hooks";
+import { logout } from "@/lib/redux/features/login_slice";
+import { useAppDispatch } from "@/lib/redux/hooks";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 

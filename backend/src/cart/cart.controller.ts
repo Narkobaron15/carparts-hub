@@ -1,11 +1,13 @@
-import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Request } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Request, UseGuards } from '@nestjs/common';
 import { CartService } from './cart.service';
+import { AuthGuard } from 'src/security/auth.guard';
 
 @Controller('cart')
 export class CartController {
     constructor(private cartService: CartService) { }
 
     // TODO: Implement pagination
+    @UseGuards(AuthGuard)
     @Get()
     async getCartByUser(
         @Request() req: any,
@@ -15,6 +17,7 @@ export class CartController {
         return await this.cartService.getCartByUserId(req.user.id, skip, take);
     }
 
+    @UseGuards(AuthGuard)
     @Post()
     async create(
         @Body('detail_id', ParseIntPipe) detail_id: number,
@@ -32,6 +35,7 @@ export class CartController {
         });
     }
 
+    @UseGuards(AuthGuard)
     @Put(':id')
     async update(
         @Body('quantity', ParseIntPipe) quantity: number,
@@ -43,6 +47,7 @@ export class CartController {
         );
     }
 
+    @UseGuards(AuthGuard)
     @Delete(':id')
     async delete(@Request() req: any) {
         return await this.cartService.delete({

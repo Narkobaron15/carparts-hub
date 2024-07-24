@@ -1,4 +1,6 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+'use client'
+
+import { configureStore } from '@reduxjs/toolkit'
 import loginSlice from './features/login_slice'
 import { thunk } from 'redux-thunk'
 import storage from 'redux-persist/lib/storage'
@@ -17,7 +19,9 @@ export const makeStore = () => {
     return configureStore({
         reducer: rootReducer,
         devTools: process.env.NODE_ENV !== 'production',
-        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+            serializableCheck: false,
+        }).concat(thunk),
     })
 }
 

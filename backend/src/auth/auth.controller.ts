@@ -31,7 +31,7 @@ export class AuthController {
     @UseGuards(AuthGuard)
     @Get('profile')
     profile(@Req() req) {
-        const { username, role } = req.user;
-        return { username, role };
+        const { username, email, role } = req.user;
+        return { username, email, role };
     }
 }

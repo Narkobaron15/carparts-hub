@@ -1,7 +1,24 @@
-import { useDispatch, useSelector, useStore } from 'react-redux'
-import type { AppDispatch, AppStore, RootState } from './store'
+import { useEffect, useState } from "react";
+import { useAppSelector } from "./redux/hooks"
+import User from "@/models/user";
+import { getAuth } from "./check_auth";
+import Role from "@/models/roles";
 
-// Use throughout your app instead of plain `useDispatch` and `useSelector`
-export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
-export const useAppSelector = useSelector.withTypes<RootState>()
-export const useAppStore = useStore.withTypes<AppStore>()
+const initialState: User = {
+    username: '',
+    email: '',
+    role: Role.Guest,
+};
+
+const useAuth = () => {
+    const token = useAppSelector(state => state.login.token);
+    const [user, setUser] = useState<User>(initialState);
+
+    useEffect(() => {
+        getAuth(token).then(user => setUser(user ?? initialState));
+    }, [token]);
+
+    return user;
+}
+
+export default useAuth;

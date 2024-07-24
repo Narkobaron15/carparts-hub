@@ -1,8 +1,12 @@
 'use client'
 import Link from "next/link";
 import styles from "./home.module.css";
+import Role from "@/models/roles";
+import useAuth from "@/lib/hooks";
 
 const Home = () => {
+  const { role } = useAuth();
+
   return (
     <div className={styles['home-page']}>
       <h1 className={styles.title}>Welcome to CarParts Hub</h1>
@@ -23,6 +27,20 @@ const Home = () => {
           <h2>Sellers</h2>
           <p>Connect with the top car part sellers</p>
         </Link>
+
+        {role && (
+          <Link href="/cart" className={styles.card}>
+          <h2>Cart</h2>
+          <p>View your orders</p>
+        </Link>
+        )}
+
+        {(role === Role.Admin || role === Role.Seller) && (
+          <Link href="/admin" className={styles.card}>
+            <h2>Admin Panel</h2>
+            <p>Manage the site</p>
+          </Link>
+        )}
       </div>
     </div>
   );

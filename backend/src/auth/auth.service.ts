@@ -11,15 +11,20 @@ export class AuthService {
     constructor(
         private userService: UsersService,
         private jwtService: JwtService
-    ) {}
+    ) { }
 
     async signIn(username: string, password: string) {
         const user = await this.userService.findOneByUsername(username);
         if (!await bcrypt.compare(password, user.pwd_hash)) {
             throw new UnauthorizedException('Invalid username or password');
         }
-        
-        const payload = { username, sub: user.id, role: user.role };
+
+        const payload = {
+            username,
+            email: user.email,
+            sub: user.id,
+            role: user.role
+        };
         return {
             access_token: await this.jwtService.signAsync(payload)
         };
@@ -38,8 +43,13 @@ export class AuthService {
             pwd_hash: hash,
             role: Role.User
         });
-        
-        const payload = { username, sub: newUser.id, role: newUser.role };
+
+        const payload = {
+            username,
+            email,
+            sub: user.id,
+            role: user.role
+        };
         return {
             access_token: await this.jwtService.signAsync(payload)
         };

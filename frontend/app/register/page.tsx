@@ -6,11 +6,11 @@ import Link from 'next/link';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { useEffect } from 'react';
-import { loginFailure, loginRequest, loginSuccess } from '@/lib/features/login_slice';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { loginFailure, loginRequest, loginSuccess } from '@/lib/redux/features/login_slice';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import http_common from '@/lib/requests';
-import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
+import { checkAuth } from '@/lib/check_auth';
 
 const RegisterSchema = Yup.object().shape({
     username: Yup.string().min(3, 'Invalid user name').required('Required'),
@@ -26,15 +26,15 @@ const RegisterPage = () => {
     const router = useRouter();
 
     useEffect(() => {
-        http_common.get('/auth/profile', {
-            headers: {
-                Authorization: token,
-            },
+        checkAuth(token).then(role => {
+            if (role) {
+                router.push('/');
+            } else {
+                dispatch(loginFailure({ error: 'Invalid token' }));
+            }
         })
-            .then(() => router.push('/'))
-            .catch((e: AxiosError) => dispatch(loginFailure({ error: e.message })));
-    }, []);
-    
+    }, [token]);
+
     const handleSubmit = async (
         values: Register,
         { setSubmitting, setStatus }: FormikHelpers<Register>
@@ -51,10 +51,12 @@ const RegisterPage = () => {
                 .then(() => router.push('/'));
         } catch (error: any) {
             console.error(error);
-            setStatus({ error: 
-                error.response.status === 401 || error.response.status === 403
-                ? error.response.data.message
-                : 'Register failed. Please try again.' });
+            setStatus({
+                error:
+                    error.response.status === 401 || error.response.status === 403
+                        ? error.response.data.message
+                        : 'Register failed. Please try again.'
+            });
             dispatch(loginFailure({ error: error.message }));
         } finally {
             setSubmitting(false);

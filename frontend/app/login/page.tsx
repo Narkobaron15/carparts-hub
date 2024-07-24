@@ -5,12 +5,12 @@ import { Formik, Form, Field, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import Link from 'next/link';
 import styles from './login.module.css';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { useRouter } from 'next/navigation';
 import http_common from '@/lib/requests';
-import { loginFailure, loginRequest, loginSuccess } from '@/lib/features/login_slice';
-import { AxiosError } from 'axios';
+import { loginFailure, loginRequest, loginSuccess } from '@/lib/redux/features/login_slice';
 import Auth from '@/models/auth';
+import { checkAuth } from '@/lib/check_auth';
 
 const LoginSchema = Yup.object().shape({
     username: Yup.string().min(3, 'Invalid user name').required('Required'),
@@ -23,13 +23,13 @@ const LoginPage = () => {
     const router = useRouter();
 
     useEffect(() => {
-        http_common.get('/auth/profile', {
-            headers: {
-                Authorization: token,
-            },
+        checkAuth(token).then(role => {
+            if (role) {
+                router.push('/');
+            } else {
+                dispatch(loginFailure({ error: 'Invalid token' }));
+            }
         })
-            .then(() => router.push('/'))
-            .catch((e: AxiosError) => dispatch(loginFailure({ error: e.message })));
     }, []);
 
     const handleSubmit = async (
@@ -48,10 +48,12 @@ const LoginPage = () => {
                 .then(() => router.push('/'));
         } catch (error: any) {
             console.error(error);
-            setStatus({ error: 
-                error.response.status === 401 || error.response.status === 403
-                ? error.response.data.message
-                : 'Login failed. Please try again.' });
+            setStatus({
+                error:
+                    error.response.status === 401 || error.response.status === 403
+                        ? error.response.data.message
+                        : 'Login failed. Please try again.'
+            });
             dispatch(loginFailure({ error: error.message }));
         } finally {
             setSubmitting(false);
