@@ -88,7 +88,7 @@ export class DetailController {
             },
             notes: data.notes,
             seller: {
-                connect: { user_id: user.id },
+                connect: { id: user.id },
             }
         });
     }

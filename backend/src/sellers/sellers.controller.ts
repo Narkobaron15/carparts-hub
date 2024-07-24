@@ -1,4 +1,4 @@
-import { Body, Controller, DefaultValuePipe, Delete, Get, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { Seller } from '@prisma/client';
 import { Public } from 'src/security/public.decorator';
 import { SellersService } from './sellers.service';
@@ -23,9 +23,9 @@ export class SellersController {
 
     @Public()
     @Get(':id')
-    async getSeller(@Query('id') id: number): Promise<Seller> {
+    async getSeller(@Param('id') id: number): Promise<Seller> {
         return await this.sellersService.get({
-            where: { user_id: id }
+            where: { id: id }
         });
     }
 
@@ -51,14 +51,14 @@ export class SellersController {
         @Body('user_id', ParseIntPipe) id: number
     ): Promise<Seller> {
         return await this.sellersService.update({
-            where: { user_id: id },
+            where: { id: id },
             data: { name, description, user: { connect: { id } } }
         });
     }
 
     @Roles(Role.Admin)
     @Delete(':id')
-    async deleteSeller(@Query('id') id: number): Promise<Seller> {
-        return await this.sellersService.delete({ user_id: id})
+    async deleteSeller(@Param('id') id: number): Promise<Seller> {
+        return await this.sellersService.delete({ id: id})
     }
 }
