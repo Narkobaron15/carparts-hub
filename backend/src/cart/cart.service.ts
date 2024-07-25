@@ -4,7 +4,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CartService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async checkIfIsInCart(
     userId: number,
@@ -20,7 +20,12 @@ export class CartService {
   }
 
   async get(where: Prisma.CartWhereUniqueInput): Promise<Cart | null> {
-    return await this.prisma.cart.findUnique({ where });
+    return await this.prisma.cart.findUnique({
+      where,
+      include: {
+        detail: true
+      },
+    });
   }
 
   async getCartByUserId(
@@ -33,6 +38,9 @@ export class CartService {
     return await this.prisma.cart.findMany({
       where: {
         user_id: userId,
+      },
+      include: {
+        detail: true,
       },
       skip,
       take,
