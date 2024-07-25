@@ -1,36 +1,38 @@
 'use client'
-import { useAuthOnly } from '@/lib/hooks';
-import http_common from '@/lib/requests';
-import Role from '@/models/roles';
-import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
-import CarForm from '../form';
+import { useAuthOnly } from '@/lib/hooks'
+import http_common from '@/lib/requests'
+import Role from '@/models/roles'
+import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import CarForm from '../form'
 import styles from '../form.module.css'
-import { CreateUpdateCar } from '@/models/car';
+import { CreateUpdateCar } from '@/models/car'
 
 const CreatePage = () => {
-    const router = useRouter();
-    const { token } = useAuthOnly(Role.Admin);
-    const [manufacturers, setManufacturers] = useState([]);
+    const router = useRouter()
+    const { token } = useAuthOnly(Role.Admin)
+    const [manufacturers, setManufacturers] = useState([])
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         const fetchManufacturers = async () => {
             try {
-                const response = await http_common.get('/manufacturer');
-                setManufacturers(response.data);
+                const response = await http_common.get('/manufacturer')
+                setManufacturers(response.data)
             } catch (error) {
-                console.error('Error fetching manufacturers:', error);
+                console.error('Error fetching manufacturers:', error)
+                setError('Error fetching manufacturers')
             }
-        };
+        }
 
-        fetchManufacturers();
-    }, []);
+        fetchManufacturers()
+    }, [])
 
     const initialValues: CreateUpdateCar = {
         manufacturer_id: 0,
         model: '',
         year: new Date().getFullYear(),
-    };
+    }
 
     const handleSubmit = async (values: CreateUpdateCar) => {
         try {
@@ -39,12 +41,15 @@ const CreatePage = () => {
                     'Content-Type': 'application/json',
                     'Authorization': token,
                 },
-            });
-            router.push('/cars/panel');
+            })
+            router.push('/cars/panel')
         } catch (error) {
-            console.error('Error creating car:', error);
+            console.error('Error creating car:', error)
+            setError('Error creating car')
         }
-    };
+    }
+
+    if (error) return <div className='error'>{error}</div>
 
     return (
         <div className={styles.container}>
@@ -56,7 +61,7 @@ const CreatePage = () => {
                 manufacturers={manufacturers}
             />
         </div>
-    );
+    )
 }
 
-export default CreatePage;
+export default CreatePage

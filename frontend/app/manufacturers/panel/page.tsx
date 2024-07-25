@@ -1,20 +1,20 @@
 'use client'
 
-import { useAuthOnly } from "@/lib/hooks";
-import http_common from "@/lib/requests";
-import { Manufacturer } from "@/models/manufacturer";
-import Role from "@/models/roles";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useAuthOnly } from '@/lib/hooks'
+import http_common from '@/lib/requests'
+import { Manufacturer } from '@/models/manufacturer'
+import Role from '@/models/roles'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
 
 const PanelPage = () => {
-    const [manufacturers, setManufacturers] = useState<Manufacturer[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [manufacturers, setManufacturers] = useState<Manufacturer[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
 
-    const { token } = useAuthOnly(Role.Admin);
-    const router = useRouter();
+    const { token } = useAuthOnly(Role.Admin)
+    const router = useRouter()
 
     useEffect(() => {
         const fetchManufacturers = async () => {
@@ -23,17 +23,17 @@ const PanelPage = () => {
                     headers: {
                         Authorization: token,
                     },
-                });
-                setManufacturers(response.data);
-                setLoading(false);
+                })
+                setManufacturers(response.data)
+                setLoading(false)
             } catch (err) {
-                setError('Failed to fetch manufacturers');
-                setLoading(false);
+                setError('Failed to fetch manufacturers')
+                setLoading(false)
             }
-        };
+        }
 
-        fetchManufacturers();
-    }, [token]);
+        fetchManufacturers()
+    }, [token])
 
     const handleDelete = async (id: number) => {
         try {
@@ -41,20 +41,20 @@ const PanelPage = () => {
                 headers: {
                     Authorization: token,
                 },
-            });
+            })
             setManufacturers(
                 manufacturers.filter(manufacturer => manufacturer.id !== id)
-            );
+            )
         } catch (err) {
-            setError('Failed to delete manufacturer');
+            setError('Failed to delete manufacturer')
         }
-    };
+    }
 
-    const handleEdit = (id: number) => router.push(`/manufacturers/update/${id}`);
+    const handleEdit = (id: number) => router.push(`/manufacturers/update/${id}`)
 
 
-    if (loading) return <div className='loading'>Loading...</div>;
-    if (error) return <div className='error'>{error}</div>;
+    if (loading) return <div className='loading'>Loading...</div>
+    if (error) return <div className='error'>{error}</div>
 
     return (
         <div className='container'>
@@ -82,7 +82,7 @@ const PanelPage = () => {
                                     {manufacturer.name}
                                 </Link>
                             </td>
-                            <td className="wrap">{manufacturer.description}</td>
+                            <td className='wrap'>{manufacturer.description}</td>
                             <td>{new Date(manufacturer.created_at).toLocaleString()}</td>
                             <td>
                                 <button
@@ -100,11 +100,11 @@ const PanelPage = () => {
                     ))}
                 </tbody>
             </table>
-            <div className="flex justify-center my-7">
+            <div className='flex justify-center my-7'>
                 <Link href='/manufacturers/create' className='btn-success'>Add Manufacturer</Link>
             </div>
         </div>
-    );
+    )
 }
 
-export default PanelPage;
+export default PanelPage

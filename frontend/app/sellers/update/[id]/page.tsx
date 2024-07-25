@@ -1,13 +1,13 @@
 'use client'
 
-import { useAuthOnly } from "@/lib/hooks";
-import http_common from "@/lib/requests";
-import Role from "@/models/roles";
-import { CreateUpdateSeller } from "@/models/seller";
-import User from "@/models/user";
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-import SellersForm from "../../form";
+import { useAuthOnly } from '@/lib/hooks'
+import http_common from '@/lib/requests'
+import Role from '@/models/roles'
+import { CreateUpdateSeller } from '@/models/seller'
+import User from '@/models/user'
+import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import SellersForm from '../../form'
 
 const UpdatePage = ({ params }: { params: { id: string } }) => {
     const [initialValues, setInitialValues] = useState<CreateUpdateSeller>({
@@ -16,10 +16,12 @@ const UpdatePage = ({ params }: { params: { id: string } }) => {
         user_id: 0,
     })
 
-    const router = useRouter();
-    const { token } = useAuthOnly(Role.Admin);
-    const [users, setUsers] = useState<(User & { id: number })[]>([]);
-    const [loading, setLoading] = useState(true);
+    const router = useRouter()
+    const { token } = useAuthOnly(Role.Admin)
+
+    const [users, setUsers] = useState<(User & { id: number })[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -28,44 +30,46 @@ const UpdatePage = ({ params }: { params: { id: string } }) => {
                     headers: {
                         'Authorization': token,
                     },
-                });
-                const sellerResponse = await http_common.get(`/sellers/${params.id}`);
+                })
+                const sellerResponse = await http_common.get(`/sellers/${params.id}`)
                 setUsers(usersResponse.data.filter((user: User) =>
                     user.role === Role.Seller || user.role === Role.Admin
-                ));
-                setInitialValues(sellerResponse.data);
+                ))
+                setInitialValues(sellerResponse.data)
 
                 if (!usersResponse.data || !sellerResponse.data) {
-                    console.error('Failed to fetch users or seller');
-                    router.push('/sellers/panel');
-                    return;
+                    console.error('Failed to fetch users or seller')
+                    router.push('/sellers/panel')
+                    return
                 }
             } catch (error) {
-                console.error('Error fetching users:', error);
+                console.error('Error fetching users:', error)
+                setError('Error fetching users')
             } finally {
-                setLoading(false);
+                setLoading(false)
             }
-        };
+        }
 
-        fetchUsers();
-    }, [token]);
+        fetchUsers()
+    }, [token])
 
     const handleSubmit = async (values: any) => {
         try {
-            delete values.user;
+            delete values.user
             await http_common.put(`/sellers/${params.id}`, values, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': token,
                 },
-            });
-            router.push('/sellers/panel');
+            })
+            router.push('/sellers/panel')
         } catch (error) {
-            console.error('Error creating seller:', error);
+            console.error('Error creating seller:', error)
+            setError('Error creating seller')
         }
-    };
+    }
 
-    if (loading) return <div className="loading">Loading...</div>
+    if (loading) return <div className='loading'>Loading...</div>
 
     return (
         <div className='container'>
@@ -76,8 +80,9 @@ const UpdatePage = ({ params }: { params: { id: string } }) => {
                 isEditing={true}
                 users={users}
             />
+            {error && <div className='error mt-6 text-center'>{error}</div>}
         </div>
-    );
+    )
 }
 
-export default UpdatePage;
+export default UpdatePage

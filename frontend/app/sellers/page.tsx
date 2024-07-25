@@ -1,46 +1,46 @@
 'use client'
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import styles from './sellers.module.css';
-import http_common from '@/lib/requests';
-import { Seller } from '@/models/seller';
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import styles from './sellers.module.css'
+import http_common from '@/lib/requests'
+import { Seller } from '@/models/seller'
 
-const ITEMS_PER_PAGE = 9;
+const ITEMS_PER_PAGE = 9
 
 const SellersPage = () => {
-    const [sellers, setSellers] = useState<Seller[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string|null>(null);
-    const [skip, setSkip] = useState(-ITEMS_PER_PAGE);
-    const [hasMore, setHasMore] = useState(true);
+    const [sellers, setSellers] = useState<Seller[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string|null>(null)
+    const [skip, setSkip] = useState(-ITEMS_PER_PAGE)
+    const [hasMore, setHasMore] = useState(true)
 
     const fetchSellers = async () => {
         try {
-            setSkip(skip + ITEMS_PER_PAGE);
+            setSkip(skip + ITEMS_PER_PAGE)
             const response = await http_common.get('/sellers', {
                 params: {
                     skip: skip + ITEMS_PER_PAGE,
                     take: ITEMS_PER_PAGE,
                 },
-            });
-            setSellers(response.data);
-            setHasMore(response.data.length >= ITEMS_PER_PAGE);
-            setLoading(false);
+            })
+            setSellers(response.data)
+            setHasMore(response.data.length >= ITEMS_PER_PAGE)
+            setLoading(false)
         } catch (err) {
-            setSkip(skip - ITEMS_PER_PAGE);
-            setError('Failed to fetch sellers. Please try again later.');
-            setLoading(false);
+            setSkip(skip - ITEMS_PER_PAGE)
+            setError('Failed to fetch sellers. Please try again later.')
+            setLoading(false)
         }
-    };
+    }
 
     useEffect(() => {
-        fetchSellers().catch(console.error);
-    }, []);
+        fetchSellers().catch(console.error)
+    }, [])
 
 
-    if (loading) return <div className={styles.loading}>Loading...</div>;
-    if (error) return <div className={styles.error}>{error}</div>;
+    if (loading) return <div className={styles.loading}>Loading...</div>
+    if (error) return <div className={styles.error}>{error}</div>
 
     return (
         <div className={styles.container}>
@@ -70,7 +70,7 @@ const SellersPage = () => {
                 </button>
             )}
         </div>
-    );
-};
+    )
+}
 
-export default SellersPage;
+export default SellersPage

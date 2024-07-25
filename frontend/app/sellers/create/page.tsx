@@ -1,19 +1,21 @@
 'use client'
 
-import { CreateUpdateSeller } from "@/models/seller";
-import SellersForm from "../form";
-import http_common from "@/lib/requests";
-import { useRouter } from "next/navigation";
-import { useAuthOnly } from "@/lib/hooks";
-import Role from "@/models/roles";
-import User from "@/models/user";
-import { useState, useEffect } from "react";
+import { CreateUpdateSeller } from '@/models/seller'
+import SellersForm from '../form'
+import http_common from '@/lib/requests'
+import { useRouter } from 'next/navigation'
+import { useAuthOnly } from '@/lib/hooks'
+import Role from '@/models/roles'
+import User from '@/models/user'
+import { useState, useEffect } from 'react'
 
 
 const CreatePage = () => {
-    const router = useRouter();
-    const { token } = useAuthOnly(Role.Admin);
-    const [users, setUsers] = useState<(User & { id: number })[]>([]);
+    const router = useRouter()
+    const { token } = useAuthOnly(Role.Admin)
+
+    const [users, setUsers] = useState<(User & { id: number })[]>([])
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -22,23 +24,24 @@ const CreatePage = () => {
                     headers: {
                         'Authorization': token,
                     },
-                });
+                })
                 setUsers(response.data.filter((user: User) =>
                     user.role === Role.Seller || user.role === Role.Admin
-                ));
+                ))
             } catch (error) {
-                console.error('Error fetching users:', error);
+                console.error('Error fetching users:', error)
+                setError('Error fetching users')
             }
-        };
+        }
 
-        fetchUsers();
-    }, [token]);
+        fetchUsers()
+    }, [token])
 
     const initialValues = {
         name: '',
         description: '',
         user_id: 0,
-    };
+    }
 
     const handleSubmit = async (values: CreateUpdateSeller) => {
         try {
@@ -47,12 +50,13 @@ const CreatePage = () => {
                     'Content-Type': 'application/json',
                     'Authorization': token,
                 },
-            });
-            router.push('/sellers/panel');
+            })
+            router.push('/sellers/panel')
         } catch (error) {
-            console.error('Error creating seller:', error);
+            console.error('Error creating seller:', error)
+            setError('Error creating seller')
         }
-    };
+    }
 
     return (
         <div className='container'>
@@ -63,8 +67,9 @@ const CreatePage = () => {
                 isEditing={false}
                 users={users}
             />
+            {error && <div className='error mt-6 text-center'>{error}</div>}
         </div>
-    );
+    )
 }
 
-export default CreatePage;
+export default CreatePage

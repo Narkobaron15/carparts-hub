@@ -1,7 +1,7 @@
 'use client'
-import { Detail } from '@/models/detail';
-import styles from './catalog.module.css';
-import CatalogCard from './catalog-card';
+import { Detail } from '@/models/detail'
+import styles from './catalog.module.css'
+import CatalogCard from './catalog-card'
 
 interface CatalogProps {
     catalogName: string

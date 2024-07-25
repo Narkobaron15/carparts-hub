@@ -1,11 +1,11 @@
-"use client";
-import Link from 'next/link';
-import styles from './error.module.css';
+'use client'
+import Link from 'next/link'
+import styles from './error.module.css'
 
 const Error = ({ statusCode }: { statusCode: number }) => {
     const handleReload = () => {
-        window.location.reload();
-    };
+        window.location.reload()
+    }
 
     return (
         <div className={styles.container}>
@@ -19,7 +19,7 @@ const Error = ({ statusCode }: { statusCode: number }) => {
                     }
                 </p>
                 <div className={styles.actions}>
-                    <Link href="/" className={styles.button}>
+                    <Link href='/' className={styles.button}>
                         Go to Homepage
                     </Link>
                     <button onClick={handleReload} className={styles.button}>
@@ -28,15 +28,15 @@ const Error = ({ statusCode }: { statusCode: number }) => {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
 Error.getInitialProps = ({ res, err }: {
-    res: any;
-    err: any;
+    res: any
+    err: any
 }) => {
-    const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
-    return { statusCode };
-};
+    const statusCode = res ? res.statusCode : err ? err.statusCode : 404
+    return { statusCode }
+}
 
-export default Error;
+export default Error

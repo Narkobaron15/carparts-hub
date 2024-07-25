@@ -1,20 +1,20 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
-import http_common from '@/lib/requests';
-import { useAuthOnly } from '@/lib/hooks';
-import Role from '@/models/roles';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { Detail } from '@/models/detail';
+import React, { useState, useEffect } from 'react'
+import http_common from '@/lib/requests'
+import { useAuthOnly } from '@/lib/hooks'
+import Role from '@/models/roles'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { Detail } from '@/models/detail'
 
 const PanelPage = () => {
-  const [details, setDetails] = useState<Detail[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [details, setDetails] = useState<Detail[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const { token } = useAuthOnly(Role.Admin, Role.Seller);
-  const router = useRouter();
+  const { token } = useAuthOnly(Role.Admin, Role.Seller)
+  const router = useRouter()
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -23,31 +23,31 @@ const PanelPage = () => {
           headers: {
             Authorization: token,
           },
-        });
-        setDetails(response.data);
-        setLoading(false);
+        })
+        setDetails(response.data)
+        setLoading(false)
       } catch (err) {
-        setError('Failed to fetch details');
-        setLoading(false);
+        setError('Failed to fetch details')
+        setLoading(false)
       }
-    };
+    }
 
-    fetchDetails();
-  }, []);
+    fetchDetails()
+  }, [])
 
   const handleDelete = async (id: number) => {
     try {
-      await http_common.delete(`/detail/${id}`);
-      setDetails(details.filter(detail => detail.id !== id));
+      await http_common.delete(`/detail/${id}`)
+      setDetails(details.filter(detail => detail.id !== id))
     } catch (err) {
-      setError('Failed to delete detail');
+      setError('Failed to delete detail')
     }
-  };
+  }
 
-  const handleEdit = (id: number) => router.push(`/catalog/update/${id}`);
+  const handleEdit = (id: number) => router.push(`/catalog/update/${id}`)
 
-  if (loading) return <div className='loading'>Loading...</div>;
-  if (error) return <div className='error'>{error}</div>;
+  if (loading) return <div className='loading'>Loading...</div>
+  if (error) return <div className='error'>{error}</div>
 
   return (
     <div className='container'>
@@ -93,11 +93,11 @@ const PanelPage = () => {
           ))}
         </tbody>
       </table>
-      <div className="flex justify-center my-7">
+      <div className='flex justify-center my-7'>
         <Link href='/catalog/create' className='btn-success'>Add Detail</Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PanelPage;
+export default PanelPage

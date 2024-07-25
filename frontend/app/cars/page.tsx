@@ -1,41 +1,41 @@
 'use client'
 
-import { useState, useEffect } from 'react';
-import styles from './cars.module.css';
-import http_common from '@/lib/requests';
-import Link from 'next/link';
-import { Car } from '@/models/car';
+import { useState, useEffect } from 'react'
+import styles from './cars.module.css'
+import http_common from '@/lib/requests'
+import Link from 'next/link'
+import { Car } from '@/models/car'
 
-const ITEMS_PER_PAGE = 9;
+const ITEMS_PER_PAGE = 9
 
 const CarsPage = () => {
-    const [cars, setCars] = useState<Car[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [cars, setCars] = useState<Car[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         const fetchCars = async () => {
             try {
-                const response = await http_common.get('/cars');
-                setCars(response.data);
-                setLoading(false);
+                const response = await http_common.get('/cars')
+                setCars(response.data)
+                setLoading(false)
             } catch (err) {
-                setError('Failed to fetch cars. Please try again later.');
-                setLoading(false);
+                setError('Failed to fetch cars. Please try again later.')
+                setLoading(false)
             }
-        };
+        }
 
-        fetchCars();
-    }, []);
+        fetchCars()
+    }, [])
 
-    if (loading) return <div className='loading'>Loading...</div>;
-    if (error) return <div className='error'>{error}</div>;
+    if (loading) return <div className='loading'>Loading...</div>
+    if (error) return <div className='error'>{error}</div>
 
     if (!cars.length) return (
-        <div className="container">
+        <div className='container'>
             <h1 className={styles.title}>No cars found</h1>
         </div>
-    );
+    )
 
     return (
         <div className='container'>
@@ -59,7 +59,7 @@ const CarsPage = () => {
                 ))}
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default CarsPage;
+export default CarsPage

@@ -1,18 +1,18 @@
 'use client'
-import { useAuthOnly } from '@/lib/hooks';
-import http_common from '@/lib/requests';
-import { Car } from '@/models/car';
-import Role from '@/models/roles';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useAuthOnly } from '@/lib/hooks'
+import http_common from '@/lib/requests'
+import { Car } from '@/models/car'
+import Role from '@/models/roles'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
 
 const PanelPage = () => {
-    const [cars, setCars] = useState<Car[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const { token } = useAuthOnly(Role.Admin);
-    const router = useRouter();
+    const [cars, setCars] = useState<Car[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
+    const { token } = useAuthOnly(Role.Admin)
+    const router = useRouter()
 
     useEffect(() => {
         const fetchCars = async () => {
@@ -21,17 +21,17 @@ const PanelPage = () => {
                     headers: {
                         Authorization: token,
                     },
-                });
-                setCars(response.data);
-                setLoading(false);
+                })
+                setCars(response.data)
+                setLoading(false)
             } catch (err) {
-                setError('Failed to fetch cars');
-                setLoading(false);
+                setError('Failed to fetch cars')
+                setLoading(false)
             }
-        };
+        }
 
-        fetchCars();
-    }, [token]);
+        fetchCars()
+    }, [token])
 
     const handleDelete = async (id: number) => {
         try {
@@ -39,17 +39,17 @@ const PanelPage = () => {
                 headers: {
                     Authorization: token,
                 },
-            });
-            setCars(cars.filter(car => car.id !== id));
+            })
+            setCars(cars.filter(car => car.id !== id))
         } catch (err) {
-            setError('Failed to delete car');
+            setError('Failed to delete car')
         }
-    };
+    }
 
-    const handleEdit = (id: number) => router.push(`/cars/update/${id}`);
+    const handleEdit = (id: number) => router.push(`/cars/update/${id}`)
 
-    if (loading) return <div className='loading'>Loading...</div>;
-    if (error) return <div className='error'>{error}</div>;
+    if (loading) return <div className='loading'>Loading...</div>
+    if (error) return <div className='error'>{error}</div>
 
     return (
         <div className='container'>
@@ -93,11 +93,11 @@ const PanelPage = () => {
                     ))}
                 </tbody>
             </table>
-            <div className="flex justify-center my-7">
+            <div className='flex justify-center my-7'>
                 <Link href='/cars/create' className='btn-success'>Add Car</Link>
             </div>
         </div>
-    );
+    )
 }
 
-export default PanelPage;
+export default PanelPage

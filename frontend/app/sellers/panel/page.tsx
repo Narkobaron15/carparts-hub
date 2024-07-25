@@ -1,19 +1,19 @@
 'use client'
-import { useAuthOnly } from '@/lib/hooks';
-import http_common from '@/lib/requests';
-import Role from '@/models/roles';
-import { Seller } from '@/models/seller';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useAuthOnly } from '@/lib/hooks'
+import http_common from '@/lib/requests'
+import Role from '@/models/roles'
+import { Seller } from '@/models/seller'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
 
 const PanelPage = () => {
-    const [sellers, setSellers] = useState<Seller[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [sellers, setSellers] = useState<Seller[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
 
-    const { token } = useAuthOnly(Role.Admin);
-    const router = useRouter();
+    const { token } = useAuthOnly(Role.Admin)
+    const router = useRouter()
 
     useEffect(() => {
         const fetchSellers = async () => {
@@ -22,17 +22,17 @@ const PanelPage = () => {
                     headers: {
                         Authorization: token,
                     },
-                });
-                setSellers(response.data);
-                setLoading(false);
+                })
+                setSellers(response.data)
+                setLoading(false)
             } catch (err) {
-                setError('Failed to fetch sellers');
-                setLoading(false);
+                setError('Failed to fetch sellers')
+                setLoading(false)
             }
-        };
+        }
 
-        fetchSellers();
-    }, [token]);
+        fetchSellers()
+    }, [token])
 
     const handleDelete = async (id: number) => {
         try {
@@ -40,17 +40,17 @@ const PanelPage = () => {
                 headers: {
                     Authorization: token,
                 },
-            });
-            setSellers(sellers.filter(seller => seller.id !== id));
+            })
+            setSellers(sellers.filter(seller => seller.id !== id))
         } catch (err) {
-            setError('Failed to delete seller');
+            setError('Failed to delete seller')
         }
-    };
+    }
 
-    const handleEdit = (id: number) => router.push(`/sellers/update/${id}`);
+    const handleEdit = (id: number) => router.push(`/sellers/update/${id}`)
 
-    if (loading) return <div className='loading'>Loading...</div>;
-    if (error) return <div className='error'>{error}</div>;
+    if (loading) return <div className='loading'>Loading...</div>
+    if (error) return <div className='error'>{error}</div>
 
     return (
         <div className='container'>
@@ -100,11 +100,11 @@ const PanelPage = () => {
                     ))}
                 </tbody>
             </table>
-            <div className="flex justify-center my-7">
+            <div className='flex justify-center my-7'>
                 <Link href='/sellers/create' className='btn-success'>Add Seller</Link>
             </div>
         </div>
-    );
+    )
 }
 
-export default PanelPage;
+export default PanelPage

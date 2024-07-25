@@ -1,11 +1,11 @@
 'use client'
-import Link from 'next/link';
-import styles from './error.module.css';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link'
+import styles from './error.module.css'
+import { useRouter } from 'next/navigation'
 
 const NotFound = () => {
-    const router = useRouter();
-    const handleBack = () => router.back();
+    const router = useRouter()
+    const handleBack = () => router.back()
 
     return (
         <div className={styles.container}>
@@ -20,13 +20,13 @@ const NotFound = () => {
                     <button onClick={handleBack} className={styles.button}>
                         Go back
                     </button>
-                    <Link href="/" className={styles.button}>
+                    <Link href='/' className={styles.button}>
                         Home page
                     </Link>
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default NotFound;
+export default NotFound

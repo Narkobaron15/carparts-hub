@@ -41,7 +41,7 @@ export class AuthService {
     }
 
     const hash = await bcrypt.hash(password, rounds);
-    await this.userService.create({
+    const newUser = await this.userService.create({
       username,
       email,
       pwd_hash: hash,
@@ -51,8 +51,8 @@ export class AuthService {
     const payload = {
       username,
       email,
-      sub: user.id,
-      role: user.role,
+      sub: newUser.id,
+      role: newUser.role,
     };
     return {
       access_token: await this.jwtService.signAsync(payload),

@@ -1,21 +1,21 @@
 'use client'
 
-import Role from "@/models/roles";
-import SellerPage from "./seller";
-import { useAuthOnly } from "@/lib/hooks";
-import AdminPage from "./admin";
+import Role from '@/models/roles'
+import SellerPage from './seller'
+import { useAuthOnly } from '@/lib/hooks'
+import AdminPage from './admin'
 
 const CoreAdminPage = () => {
-    const { role } = useAuthOnly(Role.Admin, Role.Seller);
+    const { role } = useAuthOnly(Role.Admin, Role.Seller)
 
     switch (role) {
         case Role.Admin:
-            return <AdminPage />;
+            return <AdminPage />
         case Role.Seller:
-            return <SellerPage />;
+            return <SellerPage />
         default:
-            return <div className="loading">Loading...</div>;
+            return <div className='loading'>Loading...</div>
     }
 }
 
-export default CoreAdminPage;
+export default CoreAdminPage

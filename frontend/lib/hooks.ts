@@ -1,40 +1,40 @@
-import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "./redux/hooks"
-import User from "@/models/user";
-import { getAuth, getRole } from "./check_auth";
-import Role from "@/models/roles";
-import { useRouter } from "next/navigation";
-import { loginFailure, roleRequest } from "./redux/features/login_slice";
+import { useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from './redux/hooks'
+import User from '@/models/user'
+import { getAuth, getRole } from './check_auth'
+import Role from '@/models/roles'
+import { useRouter } from 'next/navigation'
+import { loginFailure, roleRequest } from './redux/features/login_slice'
 
 const initialState: User = {
     username: '',
     email: '',
     role: Role.Guest,
-};
+}
 
 const useAuth = () => {
-    const token = useAppSelector(state => state.login.token);
-    const [user, setUser] = useState<User>(initialState);
+    const token = useAppSelector(state => state.login.token)
+    const [user, setUser] = useState<User>(initialState)
 
     useEffect(() => {
-        getAuth(token).then(user => setUser(user ?? initialState));
-    }, [token]);
+        getAuth(token).then(user => setUser(user ?? initialState))
+    }, [token])
 
-    return { ...user, token };
+    return { ...user, token }
 }
 
 const useAuthOnly = (...roles: Role[]) => {
-    const router = useRouter();
-    const dispatch = useAppDispatch();
+    const router = useRouter()
+    const dispatch = useAppDispatch()
 
-    const token = useAppSelector(state => state.login.token);
-    const [role, setRole] = useState<Role | null>(useAppSelector(state => state.login.role));
+    const token = useAppSelector(state => state.login.token)
+    const [role, setRole] = useState<Role | null>(useAppSelector(state => state.login.role))
 
     useEffect(() => {
-        if (role && (!roles.length || roles.includes(role))) return;
+        if (role && (!roles.length || roles.includes(role))) return
         if (!token) {
-            router.push('/login');
-            return;
+            router.push('/login')
+            return
         }
 
         getRole(token).then(r => {
@@ -43,24 +43,24 @@ const useAuthOnly = (...roles: Role[]) => {
             }
             setRole(r)
             dispatch(roleRequest(r))
-        });
-    }, [token, roles]);
+        })
+    }, [token, roles])
 
-    return { role, token };
+    return { role, token }
 }
 
 const useUnauthOnly = (link?: string) => {
-    const router = useRouter();
-    const token = useAppSelector(state => state.login.token);
-    const dispatch = useAppDispatch();
+    const router = useRouter()
+    const token = useAppSelector(state => state.login.token)
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         if (token) {
-            router.push(link ?? '/');
+            router.push(link ?? '/')
         } else {
-            dispatch(loginFailure({ error: 'Invalid token' }));
+            dispatch(loginFailure({ error: 'Invalid token' }))
         }
-    }, [token, link]);
+    }, [token, link])
 }
 
-export { useAuth, useAuthOnly, useUnauthOnly };
+export { useAuth, useAuthOnly, useUnauthOnly }

@@ -1,6 +1,6 @@
 'use client'
-import Image from 'next/image';
-import styles from './about.module.css';
+import Image from 'next/image'
+import styles from './about.module.css'
 
 const AboutPage = () => {
   return (
@@ -10,8 +10,8 @@ const AboutPage = () => {
       <div className={styles.content}>
         <div className={styles.imageWrapper}>
           <Image
-            src="/images/workshop.webp"
-            alt="Car workshop"
+            src='/images/workshop.webp'
+            alt='Car workshop'
             width={600}
             height={400}
             className={styles.image}
@@ -45,7 +45,7 @@ const AboutPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AboutPage;
+export default AboutPage

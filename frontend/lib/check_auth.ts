@@ -1,17 +1,17 @@
-import Role from "@/models/roles";
-import http_common from "./requests";
-import User from "@/models/user";
+import Role from '@/models/roles'
+import http_common from './requests'
+import User from '@/models/user'
 
 const getRole = async (token: string | null): Promise<Role | null> =>
-    (await getAuth(token))?.role ?? null;
+    (await getAuth(token))?.role ?? null
 
 const getAuth = async (token: string | null): Promise<User | null> => {
     if (!token) {
-        return null;
+        return null
     }
 
     if (!token.startsWith('Bearer ')) {
-        return null;
+        return null
     }
 
     try {
@@ -19,11 +19,11 @@ const getAuth = async (token: string | null): Promise<User | null> => {
             headers: {
                 Authorization: token,
             },
-        });
-        return data;
+        })
+        return data
     } catch (error) {
-        return null;
+        return null
     }
 }
 
-export { getRole, getAuth };
+export { getRole, getAuth }

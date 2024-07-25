@@ -1,38 +1,38 @@
 'use client'
-import http_common from '@/lib/requests';
-import styles from './cart.module.css';
-import { useRouter } from 'next/navigation';
-import { useAuthOnly } from '@/lib/hooks';
-import { useEffect, useState } from 'react';
-import Cart from '@/models/cart';
-import Link from 'next/link';
+import http_common from '@/lib/requests'
+import styles from './cart.module.css'
+import { useRouter } from 'next/navigation'
+import { useAuthOnly } from '@/lib/hooks'
+import { useEffect, useState } from 'react'
+import Cart from '@/models/cart'
+import Link from 'next/link'
 
 const CartPage = () => {
-    const router = useRouter();
-    const { token } = useAuthOnly();
-    const [cartItems, setCartItems] = useState<Cart[]>([]);
-    const [error, setError] = useState<string | null>(null);
+    const router = useRouter()
+    const { token } = useAuthOnly()
+    const [cartItems, setCartItems] = useState<Cart[]>([])
+    const [error, setError] = useState<string | null>(null)
 
     const fetchCartItems = async () => {
         try {
             const response = await http_common.get('/cart', {
                 headers: { 'Authorization': token },
-            });
-            setCartItems(response.data);
+            })
+            setCartItems(response.data)
         } catch (error) {
-            console.error('Error fetching cart items:', error);
-            setError('Error fetching cart items');
+            console.error('Error fetching cart items:', error)
+            setError('Error fetching cart items')
         }
-    };
+    }
 
     useEffect(() => {
         if (token) {
-            fetchCartItems().catch(console.error);
+            fetchCartItems().catch(console.error)
         }
-    }, [token]);
+    }, [token])
 
     const updateQuantity = async (itemId: number, newQuantity: number) => {
-        if (newQuantity < 1) return;
+        if (newQuantity < 1) return
 
         try {
             await http_common.put(`/cart/${itemId}`, { quantity: newQuantity }, {
@@ -40,31 +40,31 @@ const CartPage = () => {
                     'Content-Type': 'application/json',
                     'Authorization': token,
                 },
-            });
+            })
             setCartItems(prevItems =>
                 prevItems.map(item =>
                     item.id === itemId ? { ...item, quantity: newQuantity } : item
                 )
-            );
+            )
         } catch (error) {
-            console.error('Error updating cart item quantity:', error);
-            setError('Error updating cart item quantity');
+            console.error('Error updating cart item quantity:', error)
+            setError('Error updating cart item quantity')
         }
-    };
+    }
 
     const removeItem = async (itemId: number) => {
         try {
             await http_common.delete(`/cart/${itemId}`, {
                 headers: { 'Authorization': token },
-            });
-            setCartItems(prevItems => prevItems.filter(item => item.id !== itemId));
+            })
+            setCartItems(prevItems => prevItems.filter(item => item.id !== itemId))
         } catch (error) {
-            console.error('Error removing item from cart:', error);
-            setError('Error removing item from cart');
+            console.error('Error removing item from cart:', error)
+            setError('Error removing item from cart')
         }
-    };
+    }
 
-    if (error) return <div className="error">{error}</div>
+    if (error) return <div className='error'>{error}</div>
 
     return (
         <div className='container'>
@@ -108,7 +108,7 @@ const CartPage = () => {
                 </ul>
             )}
         </div>
-    );
-};
+    )
+}
 
-export default CartPage;
+export default CartPage
