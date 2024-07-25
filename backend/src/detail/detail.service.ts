@@ -16,6 +16,7 @@ export class DetailService {
       include: {
         manufacturer: true,
         seller: true,
+        car: true,
       }
     });
   }

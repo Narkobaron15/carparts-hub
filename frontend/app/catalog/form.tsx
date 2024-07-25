@@ -2,12 +2,12 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import styles from './form.module.css'
 import http_common from '@/lib/requests';
-import Car from '@/models/car';
 import { useState, useEffect } from 'react';
 import * as Yup from 'yup';
 import { CreateUpdateDetail } from '@/models/detail';
 import { useRouter } from 'next/navigation';
 import { Manufacturer } from '@/models/manufacturer';
+import { Car } from '@/models/car';
 
 const CarPartSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
@@ -107,7 +107,7 @@ const DetailForm = ({
                         <ErrorMessage name="manufacturer_id" component="div" className={styles.error} />
                     </div>
 
-                    <button type="submit" disabled={isSubmitting} className={styles.submitButton}>
+                    <button type="submit" disabled={isSubmitting} className={styles['btn-submit']}>
                         {isEditing ? 'Update' : 'Create'}
                     </button>
                 </Form>

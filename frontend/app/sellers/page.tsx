@@ -51,7 +51,7 @@ const SellersPage = () => {
                     <div key={seller.user_id} className={styles.card}>
                         <h2 className={styles.sellerName}>{seller.name}</h2>
                         <p className={styles.sellerInfo}>{seller.description}</p>
-                        <Link href={`/sellers/${seller.user_id}`} className={styles.viewMore}>
+                        <Link href={`/sellers/${seller.id}`} className={styles.viewMore}>
                             View Profile
                         </Link>
                     </div>
@@ -65,8 +65,7 @@ const SellersPage = () => {
             {hasMore && (
                 <button
                     className={styles.viewMore}
-                    onClick={fetchSellers}
-                >
+                    onClick={fetchSellers}>
                     Load More
                 </button>
             )}

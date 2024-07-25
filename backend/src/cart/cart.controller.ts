@@ -73,9 +73,7 @@ export class CartController {
 
   @UseGuards(AuthGuard)
   @Delete(':id')
-  async delete(@Request() req: any) {
-    return await this.cartService.delete({
-      id: req.params.id,
-    });
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    return await this.cartService.delete({ id });
   }
 }

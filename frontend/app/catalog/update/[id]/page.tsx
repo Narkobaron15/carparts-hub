@@ -52,7 +52,7 @@ const UpdatePage = ({ params }: { params: { id: string } }) => {
                     'Authorization': token,
                 },
             });
-            router.push('/catalog');
+            router.push('/catalog/panel');
         } catch (error) {
             console.error('Error updating car part:', error);
         }
