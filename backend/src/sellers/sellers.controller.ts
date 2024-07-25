@@ -34,9 +34,9 @@ export class SellersController {
 
   @Public()
   @Get(':id')
-  async getSeller(@Param('id') id: number): Promise<Seller> {
+  async getSeller(@Param('id', ParseIntPipe) id: number): Promise<Seller> {
     return await this.sellersService.get({
-      where: { id: id },
+      where: { id },
     });
   }
 
@@ -57,19 +57,20 @@ export class SellersController {
   @Roles(Role.Admin)
   @Put(':id')
   async updateSeller(
+    @Param('id', ParseIntPipe) id: number,
     @Body('name') name: string,
     @Body('description') description: string,
-    @Body('user_id', ParseIntPipe) id: number,
+    @Body('user_id', ParseIntPipe) user_id: number,
   ): Promise<Seller> {
     return await this.sellersService.update({
-      where: { id: id },
-      data: { name, description, user: { connect: { id } } },
+      where: { id },
+      data: { name, description, user: { connect: { id: user_id } } },
     });
   }
 
   @Roles(Role.Admin)
   @Delete(':id')
-  async deleteSeller(@Param('id') id: number): Promise<Seller> {
-    return await this.sellersService.delete({ id: id });
+  async deleteSeller(@Param('id', ParseIntPipe) id: number): Promise<Seller> {
+    return await this.sellersService.delete({ id });
   }
 }
