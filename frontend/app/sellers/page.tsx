@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './sellers.module.css';
-import Seller from '@/models/seller';
 import http_common from '@/lib/requests';
+import { Seller } from '@/models/seller';
 
 const ITEMS_PER_PAGE = 9;
 
