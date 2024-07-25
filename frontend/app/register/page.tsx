@@ -119,7 +119,7 @@ const RegisterPage = () => {
                             }
                         </div>
 
-                        <button type="submit" disabled={isSubmitting} className={styles.submitButton}>
+                        <button type="submit" disabled={isSubmitting} className={styles['btn-submit']}>
                             {isSubmitting ? 'Registering...' : 'Register'}
                         </button>
 

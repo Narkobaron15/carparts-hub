@@ -27,8 +27,7 @@ const CarForm = ({
         <Formik
             initialValues={initialValues}
             validationSchema={CarSchema}
-            onSubmit={onSubmit}
-        >
+            onSubmit={onSubmit}>
             {({ isSubmitting }) => (
                 <Form className={styles.form}>
                     <div className={styles.formGroup}>
@@ -56,8 +55,8 @@ const CarForm = ({
                         <ErrorMessage name="year" component="div" className={styles.error} />
                     </div>
 
-                    <button type="submit" disabled={isSubmitting} className={styles.submitButton}>
-                        {isEditing ? 'Update' : 'Create'} Car
+                    <button type="submit" disabled={isSubmitting} className={styles['btn-submit']}>
+                        {isEditing ? 'Update' : 'Create'}
                     </button>
                 </Form>
             )}

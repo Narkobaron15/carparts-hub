@@ -26,8 +26,7 @@ const ManufacturerForm = ({
         <Formik
             initialValues={initialValues}
             validationSchema={ManufacturerSchema}
-            onSubmit={onSubmit}
-        >
+            onSubmit={onSubmit}>
             {({ isSubmitting }) => (
                 <Form className={styles.form}>
                     <div className={styles.formGroup}>
@@ -42,7 +41,7 @@ const ManufacturerForm = ({
                         <ErrorMessage name="description" component="div" className={styles.error} />
                     </div>
 
-                    <button type="submit" disabled={isSubmitting} className={styles.submitButton}>
+                    <button type="submit" disabled={isSubmitting} className={styles['btn-submit']}>
                         {isEditing ? 'Update' : 'Create'}
                     </button>
                 </Form>

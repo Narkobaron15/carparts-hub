@@ -82,7 +82,7 @@ const LoginPage = () => {
                             {errors.password && touched.password && <div className={styles.errorText}>{errors.password}</div>}
                         </div>
 
-                        <button type="submit" disabled={isSubmitting} className={styles.submitButton}>
+                        <button type="submit" disabled={isSubmitting} className={styles['btn-submit']}>
                             {isSubmitting ? 'Logging in...' : 'Log In'}
                         </button>
 

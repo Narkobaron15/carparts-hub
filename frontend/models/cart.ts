@@ -1,4 +1,4 @@
-import Detail from "./part";
+import { Detail } from "./detail";
 
 export default class Cart {
     declare id: number;

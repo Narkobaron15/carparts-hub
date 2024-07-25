@@ -50,6 +50,7 @@ const ManufacturersPage = () => {
                     {manufacturers.map((manufacturer) => (
                         <div key={manufacturer.id} className={styles.card}>
                             <h2 className={styles.manufacturerName}>{manufacturer.name}</h2>
+                            <p className={styles.manufacturerInfo}>{manufacturer.description}</p>
                             <Link href={`/manufacturers/${manufacturer.id}`} className={styles.viewMore}>
                                 View More
                             </Link>

@@ -82,7 +82,7 @@ const PanelPage = () => {
                                     {manufacturer.name}
                                 </Link>
                             </td>
-                            <td>{manufacturer.description}</td>
+                            <td className="wrap">{manufacturer.description}</td>
                             <td>{new Date(manufacturer.created_at).toLocaleString()}</td>
                             <td>
                                 <button

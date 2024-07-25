@@ -1,3 +1,4 @@
+import Role from "@/models/roles";
 import { createSlice } from "@reduxjs/toolkit";
 
 const loginSlice = createSlice({
@@ -6,12 +7,17 @@ const loginSlice = createSlice({
         error: null,
         loading: false,
         token: null,
+        role: null,
     } as {
         error: string | null;
         loading: boolean;
         token: string | null;
+        role: Role | null;
     },
     reducers: {
+        roleRequest: (state, action) => {
+            state.role = action.payload;
+        },
         loginRequest: (state) => {
             state.loading = true;
         },
@@ -33,9 +39,17 @@ const loginSlice = createSlice({
             state.token = null;
             state.error = null;
             state.loading = false;
+            state.role = null;
         }
     },
 });
 
-export const { loginRequest, loginSuccess, loginFailure, logout } = loginSlice.actions
+export const {
+    loginRequest,
+    loginSuccess,
+    loginFailure,
+    logout,
+    roleRequest
+} = loginSlice.actions
+
 export default loginSlice

@@ -1,6 +1,6 @@
-import Car from "./car";
+import { Car } from "./car";
 import { Manufacturer } from "./manufacturer";
-import Seller from "./seller";
+import { Seller } from "./seller";
 
 export class Detail {
     declare id: number;

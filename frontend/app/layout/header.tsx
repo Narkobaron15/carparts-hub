@@ -2,11 +2,11 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import styles from './header.module.css';
-import { useAuthOnly } from '@/lib/hooks';
+import { useAuth } from '@/lib/hooks';
 import Role from '@/models/roles';
 
 const Header = () => {
-  const { role } = useAuthOnly();
+  const { role } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isAuthenticated = !!role && role !== Role.Guest;
 

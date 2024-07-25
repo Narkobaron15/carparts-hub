@@ -4,7 +4,7 @@ import User from "@/models/user";
 import { getAuth, getRole } from "./check_auth";
 import Role from "@/models/roles";
 import { useRouter } from "next/navigation";
-import { loginFailure } from "./redux/features/login_slice";
+import { loginFailure, roleRequest } from "./redux/features/login_slice";
 
 const initialState: User = {
     username: '',
@@ -20,20 +20,29 @@ const useAuth = () => {
         getAuth(token).then(user => setUser(user ?? initialState));
     }, [token]);
 
-    return user;
+    return { ...user, token };
 }
 
 const useAuthOnly = (...roles: Role[]) => {
     const router = useRouter();
+    const dispatch = useAppDispatch();
+
     const token = useAppSelector(state => state.login.token);
-    const [role, setRole] = useState<Role | null>(null);
+    const [role, setRole] = useState<Role | null>(useAppSelector(state => state.login.role));
 
     useEffect(() => {
+        if (role && (!roles.length || roles.includes(role))) return;
+        if (!token) {
+            router.push('/login');
+            return;
+        }
+
         getRole(token).then(r => {
             if (!r || (roles.length > 0 && !roles.includes(r))) {
                 router.push('/')
             }
             setRole(r)
+            dispatch(roleRequest(r))
         });
     }, [token, roles]);
 

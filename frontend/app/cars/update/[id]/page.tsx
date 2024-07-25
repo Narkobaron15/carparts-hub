@@ -23,6 +23,11 @@ const UpdatePage = ({ params }: { params: { id: string } }) => {
                     Authorization: token,
                 },
             });
+            if (!response.data) {
+                router.push('/cars/panel')
+                return
+            }
+
             setCar(response.data);
 
             const manufacturersResponse = await http_common.get('/manufacturer')

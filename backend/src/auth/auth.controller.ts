@@ -5,33 +5,33 @@ import { Public } from 'src/security/public.decorator';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
-    @Public()
-    @Post('login')
-    async login(
-        @Body('username') username: string, 
-        @Body('password') password: string
-    ) {
-        // TODO: http-only cookie
-        return await this.authService.signIn(username, password);
-    }
-    
-    @Public()
-    @Post('register')
-    async register(
-        @Body('username') username: string,
-        @Body('email') email: string,
-        @Body('password') password: string
-    ) {
-        // TODO: http-only cookie
-        return await this.authService.signUp(username, email, password);
-    }
+  @Public()
+  @Post('login')
+  async login(
+    @Body('username') username: string,
+    @Body('password') password: string,
+  ) {
+    // TODO: http-only cookie
+    return await this.authService.signIn(username, password);
+  }
 
-    @UseGuards(AuthGuard)
-    @Get('profile')
-    profile(@Req() req) {
-        const { username, email, role } = req.user;
-        return { username, email, role };
-    }
+  @Public()
+  @Post('register')
+  async register(
+    @Body('username') username: string,
+    @Body('email') email: string,
+    @Body('password') password: string,
+  ) {
+    // TODO: http-only cookie
+    return await this.authService.signUp(username, email, password);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('profile')
+  profile(@Req() req) {
+    const { username, email, role } = req.user;
+    return { username, email, role };
+  }
 }

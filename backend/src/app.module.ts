@@ -28,13 +28,13 @@ import { SellersModule } from './sellers/sellers.module';
     PrismaService,
     {
       provide: 'APP_GUARD',
-      useClass: AuthGuard
+      useClass: AuthGuard,
     },
     {
       provide: 'ROLE_GUARD',
-      useClass: RolesGuard
+      useClass: RolesGuard,
     },
-    SellersService
+    SellersService,
   ],
 })
-export class AppModule { }
+export class AppModule {}
