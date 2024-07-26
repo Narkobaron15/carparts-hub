@@ -51,9 +51,7 @@ async function main() {
         update: {},
         create: {
             name: 'Toyota',
-            description: `Toyota Motor Corporation is 
-            a Japanese multinational automotive manufacturer 
-            headquartered in Toyota, Aichi, Japan.`,
+            description: `Toyota Motor Corporation is a Japanese multinational automotive manufacturer headquartered in Toyota, Aichi, Japan.`,
         },
     })
 

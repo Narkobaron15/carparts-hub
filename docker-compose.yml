@@ -29,14 +29,16 @@ services:
   app-backend:
     image: app-backend
     build:
-      context: ./backend
+      context: ./carparts-backend
       dockerfile: Dockerfile
       args:
-        - NODE_ENV=production
         - DATABASE_URL=${DATABASE_URL}
         - JWT_SECRET=${JWT_SECRET}
+        - PORT=80
+    environment:
+      - PORT=80
     ports:
-      - "4000:4000"
+      - "4000:80"
     env_file:
       - .env
     depends_on:
@@ -46,8 +48,14 @@ services:
   app-frontend:
     image: app-frontend
     build:
-      context: ./frontend
+      context: ./carparts-frontend
       dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+    environment:
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+    env_file:
+      - .env
     ports:
       - "3000:3000"
     depends_on:

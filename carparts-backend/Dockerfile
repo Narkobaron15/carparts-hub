@@ -1,8 +1,8 @@
 ARG DATABASE_URL
 ARG JWT_SECRET
+ARG PORT
 
 FROM node:alpine
-
 WORKDIR /app
 
 COPY package*.json ./
@@ -15,7 +15,7 @@ RUN npm run build
 
 ENV NODE_ENV=production
 
-EXPOSE 4000
+EXPOSE $PORT
 
 ENTRYPOINT npx prisma migrate deploy &&\
 npx prisma db seed &&\

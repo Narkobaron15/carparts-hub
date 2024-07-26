@@ -2,10 +2,10 @@
 import Link from 'next/link'
 import styles from './home.module.css'
 import Role from '@/models/roles'
-import { useAppSelector } from '@/lib/redux/hooks'
+import { useAuth } from '@/lib/hooks'
 
 const Home = () => {
-  const role = useAppSelector(state => state.login.role)
+  const { role } = useAuth()
 
   return (
     <div className={styles['home-page']}>
