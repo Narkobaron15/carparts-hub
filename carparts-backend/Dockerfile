@@ -17,6 +17,7 @@ ENV NODE_ENV=production
 
 EXPOSE $PORT
 
+# TODO: Remove seed line in production
 ENTRYPOINT npx prisma migrate deploy &&\
-npx prisma db seed &&\ # TODO: Remove this line in production
+npx prisma db seed &&\ 
 node dist/src/main
