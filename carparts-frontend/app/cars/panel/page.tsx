@@ -35,7 +35,7 @@ const PanelPage = () => {
 
     const handleDelete = async (id: number) => {
         try {
-            await http_common.delete(`/car/${id}`, {
+            await http_common.delete(`/cars/${id}`, {
                 headers: {
                     Authorization: token,
                 },

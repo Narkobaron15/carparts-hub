@@ -31,7 +31,7 @@ const UpdatePage = ({ params }: { params: { id: string } }) => {
 
             setCar(response.data)
 
-            const manufacturersResponse = await http_common.get('/manufacturer')
+            const manufacturersResponse = await http_common.get('/manufacturers')
             if (!manufacturersResponse.data || !manufacturersResponse.data.length) {
                 console.error('Manufacturers not found')
                 router.push('/cars')

@@ -20,7 +20,7 @@ const CreatePage = () => {
 
     const handleSubmit = async (values: CreateUpdateManufacturer) => {
         try {
-            await http_common.post('/manufacturer', values, {
+            await http_common.post('/manufacturers', values, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': token,

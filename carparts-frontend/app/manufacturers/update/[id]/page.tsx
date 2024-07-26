@@ -18,7 +18,7 @@ const UpdatePage = ({ params }: { params: { id: number } }) => {
 
     const fetchManufacturer = async () => {
         try {
-            const response = await http_common.get(`/manufacturer/${id}`)
+            const response = await http_common.get(`/manufacturers/${id}`)
             if (!response.data) {
                 console.error('Manufacturer not found')
                 router.push('/manufacturers/panel')
@@ -39,10 +39,9 @@ const UpdatePage = ({ params }: { params: { id: number } }) => {
         if (id) fetchManufacturer()
     }, [id])
 
-    console.log('initialValues:', initialValues)
     const handleSubmit = async (values: CreateUpdateManufacturer) => {
         try {
-            await http_common.put(`/manufacturer/${id}`, values, {
+            await http_common.put(`/manufacturers/${id}`, values, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': token,

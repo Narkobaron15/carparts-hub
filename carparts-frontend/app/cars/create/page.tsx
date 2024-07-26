@@ -17,7 +17,7 @@ const CreatePage = () => {
     useEffect(() => {
         const fetchManufacturers = async () => {
             try {
-                const response = await http_common.get('/manufacturer')
+                const response = await http_common.get('/manufacturers')
                 setManufacturers(response.data)
             } catch (error) {
                 console.error('Error fetching manufacturers:', error)

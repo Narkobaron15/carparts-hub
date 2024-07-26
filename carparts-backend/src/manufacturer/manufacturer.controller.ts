@@ -15,7 +15,7 @@ import { Public } from 'src/security/public.decorator';
 import { Roles } from 'src/security/roles.decorator';
 import Role from 'src/users/role.enum';
 
-@Controller('manufacturer')
+@Controller('manufacturers')
 export class ManufacturerController {
   constructor(private manufacturerService: ManufacturerService) {}
 

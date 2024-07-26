@@ -15,8 +15,8 @@ const SingleDetailsPage = (
 
     const fetchData = async () => {
         try {
-            const res = await http_common.get(`/manufacturer/${params.slug}`)
-            const resDetails = await http_common.get(`/detail/manufacturer/${params.slug}`)
+            const res = await http_common.get(`/manufacturers/${params.slug}`)
+            const resDetails = await http_common.get(`/details/manufacturers/${params.slug}`)
             setSeller(res.data)
             setDetails(resDetails.data)
         } catch (error) {

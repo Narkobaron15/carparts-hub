@@ -19,7 +19,7 @@ const SingleDetailsPage = (
     useEffect(() => {
         const fetchDetail = async () => {
             try {
-                const response = await http_common.get(`/detail/${detailId}`, {
+                const response = await http_common.get(`/details/${detailId}`, {
                     headers: { 'Authorization': token },
                 })
                 setDetail(response.data)
@@ -88,6 +88,7 @@ const SingleDetailsPage = (
     return (
         <div className='container'>
             <h1 className='title'>{detail.name}</h1>
+            <div className="max-w-3xl mx-auto">
             <p className={styles.description}>{detail.notes}</p>
             <p className={styles.info}>Specifications:</p>
             <p className={styles.info}>
@@ -128,6 +129,7 @@ const SingleDetailsPage = (
                         Remove from Cart
                     </button>
                 )}
+            </div>
             </div>
         </div>
     )

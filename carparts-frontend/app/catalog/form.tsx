@@ -36,7 +36,7 @@ const DetailForm = ({
     const fetchData = async () => {
         try {
             const [manufacturersResponse, carsResponse] = await Promise.all([
-                http_common.get('/manufacturer'),
+                http_common.get('/manufacturers'),
                 http_common.get('/cars')
             ])
             

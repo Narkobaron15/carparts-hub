@@ -18,7 +18,7 @@ const ManufacturersPage = () => {
     const fetchManufacturers = async () => {
         try {
             setSkip(skip + ITEMS_PER_PAGE)
-            const response = await http_common.get('/manufacturer', {
+            const response = await http_common.get('/manufacturers', {
                 params: {
                     skip: skip + ITEMS_PER_PAGE,
                     take: ITEMS_PER_PAGE,

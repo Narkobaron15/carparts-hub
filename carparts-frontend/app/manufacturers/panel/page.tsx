@@ -19,7 +19,7 @@ const PanelPage = () => {
     useEffect(() => {
         const fetchManufacturers = async () => {
             try {
-                const response = await http_common.get('/manufacturer', {
+                const response = await http_common.get('/manufacturers', {
                     headers: {
                         Authorization: token,
                     },
@@ -37,7 +37,7 @@ const PanelPage = () => {
 
     const handleDelete = async (id: number) => {
         try {
-            await http_common.delete(`/manufacturer/${id}`, {
+            await http_common.delete(`/manufacturers/${id}`, {
                 headers: {
                     Authorization: token,
                 },

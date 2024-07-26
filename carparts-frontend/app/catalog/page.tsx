@@ -12,7 +12,7 @@ const Catalog = () => {
   useEffect(() => {
     const fetchParts = async () => {
       try {
-        const response = await http_common.get('/detail')
+        const response = await http_common.get('/details')
         setParts(response.data)
         setLoading(false)
       } catch (err) {

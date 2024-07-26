@@ -16,7 +16,7 @@ const SingleDetailsPage = (
     const fetchData = async () => {
         try {
             const res = await http_common.get(`/cars/${params.slug}`)
-            const resDetails = await http_common.get(`/detail/car/${params.slug}`)
+            const resDetails = await http_common.get(`/details/car/${params.slug}`)
             setCar(res.data)
             setDetails(resDetails.data)
         } catch (error) {

@@ -23,7 +23,7 @@ const CreatePage = () => {
         values.car_id = Number(values.car_id)
         values.manufacturer_id = Number(values.manufacturer_id)
         try {
-            await http_common.post('/detail', values, {
+            await http_common.post('/details', values, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': token,

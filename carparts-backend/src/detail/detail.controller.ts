@@ -20,7 +20,7 @@ import { Roles } from 'src/security/roles.decorator';
 import { UsersService } from 'src/users/users.service';
 import { AuthGuard } from 'src/security/auth.guard';
 
-@Controller('detail')
+@Controller('details')
 export class DetailController {
   constructor(
     private readonly detailService: DetailService,

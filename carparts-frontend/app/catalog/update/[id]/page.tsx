@@ -18,7 +18,7 @@ const UpdatePage = ({ params }: { params: { id: string } }) => {
 
     const fetchCarPart = async () => {
         try {
-            const response = await http_common.get(`/detail/${id}`)
+            const response = await http_common.get(`/details/${id}`)
             if (!response.data) {
                 console.error('Car part not found')
                 router.push('/catalog/panel')
@@ -48,7 +48,7 @@ const UpdatePage = ({ params }: { params: { id: string } }) => {
         values.car_id = Number(values.car_id)
         values.manufacturer_id = Number(values.manufacturer_id)
         try {
-            await http_common.put(`/detail/${id}`, values, {
+            await http_common.put(`/details/${id}`, values, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': token,

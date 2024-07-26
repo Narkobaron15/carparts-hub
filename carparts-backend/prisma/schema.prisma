@@ -37,7 +37,7 @@ model Manufacturer {
 
 model Car {
   id Int @default(autoincrement()) @id
-  manufacturer Manufacturer? @relation(fields: [manufacturer_id], references: [id])
+  manufacturer Manufacturer? @relation(fields: [manufacturer_id], references: [id], onDelete: Cascade)
   manufacturer_id Int
   model String
   year Int
@@ -48,7 +48,7 @@ model Car {
 
 model Seller {
   id Int @default(autoincrement()) @id
-  user User? @relation(fields: [user_id], references: [id])
+  user User? @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id Int
   name String
   description String
@@ -59,12 +59,12 @@ model Seller {
 
 model Detail {
   id Int @default(autoincrement()) @id
-  car Car? @relation(fields: [car_id], references: [id])
+  car Car? @relation(fields: [car_id], references: [id], onDelete: Cascade)
   car_id Int
   name String
-  manufacturer Manufacturer? @relation(fields: [manufacturer_id], references: [id])
+  manufacturer Manufacturer? @relation(fields: [manufacturer_id], references: [id], onDelete: Cascade)
   manufacturer_id Int
-  seller Seller? @relation(fields: [seller_id], references: [id])
+  seller Seller? @relation(fields: [seller_id], references: [id], onDelete: Cascade)
   seller_id Int
   notes String
   created_at DateTime @default(now())
@@ -74,9 +74,9 @@ model Detail {
 
 model Cart {
   id Int @default(autoincrement()) @id
-  user User? @relation(fields: [user_id], references: [id])
+  user User? @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id Int
-  detail Detail? @relation(fields: [detail_id], references: [id])
+  detail Detail? @relation(fields: [detail_id], references: [id], onDelete: Cascade)
   detail_id Int
   quantity Int
   created_at DateTime @default(now())

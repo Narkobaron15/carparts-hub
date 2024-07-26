@@ -19,7 +19,7 @@ const PanelPage = () => {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const response = await http_common.get('/detail/seller', {
+        const response = await http_common.get('/details/seller', {
           headers: {
             Authorization: token,
           },
@@ -37,7 +37,7 @@ const PanelPage = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      await http_common.delete(`/detail/${id}`)
+      await http_common.delete(`/details/${id}`)
       setDetails(details.filter(detail => detail.id !== id))
     } catch (err) {
       setError('Failed to delete detail')
