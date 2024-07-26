@@ -2,11 +2,11 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import styles from './header.module.css'
-import { useAuth } from '@/lib/hooks'
 import Role from '@/models/roles'
+import { useAppSelector } from '@/lib/redux/hooks'
 
 const Header = () => {
-  const { role } = useAuth()
+  const role = useAppSelector(state => state.login.role)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const isAuthenticated = !!role && role !== Role.Guest
 

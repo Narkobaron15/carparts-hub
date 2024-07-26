@@ -2,10 +2,10 @@
 import Link from 'next/link'
 import styles from './home.module.css'
 import Role from '@/models/roles'
-import { useAuth } from '@/lib/hooks'
+import { useAppSelector } from '@/lib/redux/hooks'
 
 const Home = () => {
-  const { role } = useAuth()
+  const role = useAppSelector(state => state.login.role)
 
   return (
     <div className={styles['home-page']}>
@@ -33,7 +33,7 @@ const Home = () => {
           <p>Connect with the top car part sellers</p>
         </Link>
 
-        {role !== Role.Guest && (
+        {role && role !== Role.Guest && (
           <Link href='/cart' className={styles.card}>
           <h2>Cart</h2>
           <p>View your orders</p>

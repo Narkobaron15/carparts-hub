@@ -1,27 +1,22 @@
-FROM node:latest
-
-ARG PORT=4000
 ARG DATABASE_URL
 ARG JWT_SECRET
 
-ENV NODE_ENV=production
-ENV PORT=${PORT}
-ENV DATABASE_URL=${DATABASE_URL}
-ENV JWT_SECRET=${JWT_SECRET}
+FROM node:alpine
 
 WORKDIR /app
 
-COPY package.json ./
-COPY package-lock.json ./
-
+COPY package*.json ./
 RUN npm ci
 
 COPY . .
 
+RUN npx prisma generate
 RUN npm run build
 
-EXPOSE ${PORT}
+ENV NODE_ENV=production
 
-RUN apt-get update -y && apt-get install -y openssl
+EXPOSE 4000
 
-CMD ["npm", "run", "start:prod"]
+ENTRYPOINT npx prisma migrate deploy &&\
+npx prisma db seed &&\
+node dist/src/main

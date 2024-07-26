@@ -1,5 +1,4 @@
 'use client'
-import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import styles from './page.module.css'
 import http_common from '@/lib/requests'
@@ -10,7 +9,6 @@ import Link from 'next/link'
 const SingleDetailsPage = (
     { params }: { params: { slug: string } }
 ) => {
-    const router = useRouter()
     const { token } = useAuth()
     const [detail, setDetail] = useState<Detail | null>(null)
     const [quantity, setQuantity] = useState(1)
